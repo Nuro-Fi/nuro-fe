@@ -45,9 +45,15 @@ export const WalletButton = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className="wallet__button wallet__button--primary"
+                    className="
+                      relative inline-flex items-center justify-center gap-2 px-3.5 py-2
+                      text-xs uppercase tracking-[0.14em] cursor-pointer
+                      bg-transparent border border-blue-600 text-blue-600
+                      hover:bg-blue-50 hover:border-blue-700 hover:text-blue-800
+                      transition-all duration-150
+                    "
                   >
-                    <Wallet className="wallet__icon" />
+                    <Wallet className="w-4 h-4" />
                     <span>Connect Wallet</span>
                   </button>
                 );
@@ -58,7 +64,12 @@ export const WalletButton = () => {
                   <button
                     onClick={openChainModal}
                     type="button"
-                    className="wallet__button wallet__button--danger"
+                    className="
+                      relative inline-flex items-center justify-center gap-2 px-3.5 py-2
+                      text-xs uppercase tracking-[0.14em] cursor-pointer
+                      border border-red-300 bg-red-50 text-red-600
+                      hover:bg-red-100 transition-colors duration-150
+                    "
                   >
                     Wrong Network
                   </button>
@@ -80,14 +91,14 @@ export const WalletButton = () => {
               }
 
               return (
-                <div className="wallet">
+                <div className="inline-flex items-stretch gap-2">
                   {/* Balance Display */}
                   {isPending ? (
                     <LoadingState balance />
                   ) : displayBalance ? (
-                    <div className="navbar__balance">
-                      <span className="navbar__balance-label">Balance</span>
-                      <span className="navbar__balance-value">
+                    <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 border border-blue-200 text-xs uppercase tracking-[0.14em]">
+                      <span className="text-slate-500">Balance</span>
+                      <span className="text-blue-700 font-medium">
                         {displayBalance} {symbol}
                       </span>
                     </div>
@@ -96,11 +107,17 @@ export const WalletButton = () => {
                   <button
                     onClick={openChainModal}
                     type="button"
-                    className="wallet__button wallet__button--chain"
+                    className="
+                      relative inline-flex items-center justify-center gap-2 px-3.5 py-2
+                      text-xs uppercase tracking-[0.14em] cursor-pointer
+                      bg-white border border-slate-200 text-slate-700
+                      hover:border-blue-400 hover:text-blue-700 hover:bg-slate-50
+                      transition-all duration-150 shadow-sm
+                    "
                   >
                     {chain.hasIcon && (
                       <div
-                        className="wallet__chain-icon-wrapper"
+                        className="w-[18px] h-[18px] overflow-hidden rounded-full"
                         style={{ background: chain.iconBackground }}
                       >
                         {chain.iconUrl && (
@@ -109,7 +126,7 @@ export const WalletButton = () => {
                             src={chain.iconUrl}
                             width={24}
                             height={24}
-                            className="wallet__chain-icon-img"
+                            className="w-full h-full object-cover"
                           />
                         )}
                       </div>
@@ -120,9 +137,15 @@ export const WalletButton = () => {
                   <button
                     onClick={openAccountModal}
                     type="button"
-                    className="wallet__button wallet__button--account"
+                    className="
+                      relative inline-flex items-center justify-center gap-2 px-3.5 py-2
+                      text-xs uppercase tracking-[0.14em] cursor-pointer
+                      bg-white border border-slate-200 text-slate-700
+                      hover:border-blue-400 hover:text-blue-700 hover:bg-slate-50
+                      transition-all duration-150 shadow-sm
+                    "
                   >
-                    <span className="wallet__account-text">
+                    <span className="font-mono text-[0.7rem]">
                       {account.displayName}
                     </span>
                   </button>

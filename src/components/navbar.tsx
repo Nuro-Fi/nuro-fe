@@ -10,7 +10,7 @@ import {
   DEFAULT_CHAIN,
   getChainBySlug,
   getChainById,
-} from "@/lib/constants/chain";
+} from "@/lib/constants/chains";
 
 const navItems = [
   { label: "Markets", href: "/markets" },

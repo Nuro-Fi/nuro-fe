@@ -99,46 +99,46 @@
 --foreground: oklch(0.145 0 0);
 
 /* Action Button Colors */
---btn-create: #ff6c0c;
---btn-create-hover: #e55a00;
---btn-create-border: #ff6c0c;
---btn-supply: #ff6c0c;
---btn-supply-hover: #e55a00;
---btn-supply-border: #ff6c0c;
---btn-withdraw: #ff6c0c;
---btn-withdraw-hover: #e55a00;
---btn-withdraw-border: #ff6c0c;
---btn-borrow: #ff6c0c;
---btn-borrow-hover: #e55a00;
---btn-borrow-border: #ff6c0c;
---btn-repay: #ff6c0c;
---btn-repay-hover: #e55a00;
---btn-repay-border: #ff6c0c;
+--btn-create: #3b82f6;
+--btn-create-hover: #2563eb;
+--btn-create-border: #3b82f6;
+--btn-supply: #3b82f6;
+--btn-supply-hover: #2563eb;
+--btn-supply-border: #3b82f6;
+--btn-withdraw: #3b82f6;
+--btn-withdraw-hover: #2563eb;
+--btn-withdraw-border: #3b82f6;
+--btn-borrow: #3b82f6;
+--btn-borrow-hover: #2563eb;
+--btn-borrow-border: #3b82f6;
+--btn-repay: #3b82f6;
+--btn-repay-hover: #2563eb;
+--btn-repay-border: #3b82f6;
 
-/* Surface Colors - bg-neutral-* equivalents */
---surface-primary: #0a0a0a; /* neutral-950 */
---surface-secondary: #171717; /* neutral-900 */
---surface-tertiary: #262626; /* neutral-800 */
---surface-hover: #262626; /* neutral-800 */
---surface-active: #404040; /* neutral-700 */
+/* Surface Colors - Light mode */
+--surface-primary: #ffffff; /* white */
+--surface-secondary: #f9fafb; /* gray-50 */
+--surface-tertiary: #f3f4f6; /* gray-100 */
+--surface-hover: #e5e7eb; /* gray-200 */
+--surface-active: #d1d5db; /* gray-300 */
 
 /* Border Colors */
---border-primary: #262626; /* neutral-800 */
---border-secondary: #404040; /* neutral-700 */
---border-hover: #525252; /* neutral-600 */
+--border-primary: #e5e7eb; /* gray-200 */
+--border-secondary: #d1d5db; /* gray-300 */
+--border-hover: #9ca3af; /* gray-400 */
 
 /* Text Colors */
---text-heading: #fafafa; /* neutral-50 */
---text-primary: #f5f5f5; /* neutral-100 */
---text-secondary: #a3a3a3; /* neutral-400 */
---text-tertiary: #d4d4d4; /* neutral-300 */
---text-muted: #737373; /* neutral-500 */
---text-disabled: #525252; /* neutral-600 */
+--text-heading: #111827; /* gray-900 */
+--text-primary: #1f2937; /* gray-800 */
+--text-secondary: #6b7280; /* gray-500 */
+--text-tertiary: #4b5563; /* gray-600 */
+--text-muted: #9ca3af; /* gray-400 */
+--text-disabled: #d1d5db; /* gray-300 */
 
 /* Status Colors - for transaction types, badges, etc. */
---status-success: #ff6c0c; /* orange */
---status-success-bg: rgba(255, 108, 12, 0.15); /* orange/15 */
---status-success-border: rgba(255, 108, 12, 0.3); /* orange/30 */
+--status-success: #3b82f6; /* blue */
+--status-success-bg: rgba(59, 130, 246, 0.15); /* blue/15 */
+--status-success-border: rgba(59, 130, 246, 0.3); /* blue/30 */
 
 --status-warning: #fbbf24; /* amber-400 */
 --status-warning-bg: rgba(245, 158, 11, 0.15); /* amber-500/15 */
@@ -233,7 +233,7 @@ body {
 @apply bg-background text-foreground;
 position: relative;
 min-height: 100vh;
-background: #0a0a0a;
+background: #ffffff;
 }
 
 /* Show pointer cursor for interactive elements across the app */
@@ -287,7 +287,7 @@ animation: shimmer 2s infinite linear;
 height: 2.5rem;
 width: 100%;
 border-radius: 0 !important;
-background-color: #ff6c0c !important;
+background-color: #3b82f6 !important;
 font-size: 0.875rem;
 font-weight: 600;
 color: #ffffff !important;
@@ -295,7 +295,7 @@ transition: background-color 150ms ease;
 }
 
 .btn-action-primary:hover:not(:disabled) {
-background-color: #e55a00 !important;
+background-color: #2563eb !important;
 }
 
 .btn-action-primary:disabled {
@@ -325,13 +325,13 @@ color: #ffffff !important;
 }
 
 .btn-toggle--inactive {
-background-color: #171717 !important;
-color: #e5e5e5 !important;
+background-color: #f3f4f6 !important;
+color: #4b5563 !important;
 }
 
 .btn-toggle--inactive:hover {
-background-color: #262626 !important;
-color: #e5e5e5 !important;
+background-color: #e5e7eb !important;
+color: #1f2937 !important;
 }
 
 .btn-secondary {
@@ -340,13 +340,13 @@ border-radius: 0 !important;
 padding-inline: 0.75rem;
 font-size: 0.6875rem;
 font-weight: 500;
-background-color: #262626 !important;
-color: #f5f5f5 !important;
+background-color: #f3f4f6 !important;
+color: #1f2937 !important;
 transition: background-color 150ms ease;
 }
 
 .btn-secondary:hover {
-background-color: #404040 !important;
+background-color: #e5e7eb !important;
 }
 
 .btn-tab {
@@ -362,12 +362,12 @@ color 150ms ease;
 }
 
 .btn-tab--active {
-background-color: #ff6c0c !important;
+background-color: #3b82f6 !important;
 color: #ffffff !important;
 }
 
 .btn-tab--active:hover {
-background-color: #ff6c0c !important;
+background-color: #3b82f6 !important;
 color: #ffffff !important;
 }
 
@@ -422,17 +422,17 @@ font-size: 0.75rem;
 color: #93c5fd;
 }
 
-/* Same chain indicator - orange theme */
+/* Same chain indicator - blue theme */
 .same-chain-indicator {
 padding: 0.5rem;
 border-radius: 0.25rem;
-background-color: rgba(255, 108, 12, 0.2);
-border: 1px solid rgba(255, 108, 12, 0.3);
+background-color: rgba(59, 130, 246, 0.2);
+border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
 .same-chain-indicator p {
 font-size: 0.75rem;
-color: #ffb380;
+color: #93c5fd;
 }
 
 /* Remove focus outline from Recharts elements */
@@ -547,7 +547,7 @@ padding: 2rem 0 2.5rem;
 position: relative;
 font-size: 2.5rem;
 font-weight: 700;
-background: linear-gradient(135deg, #ffffff 0%, #ff8c40 50%, #ff6c0c 100%);
+background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
 background-size: 200% 200%;
 -webkit-background-clip: text;
 -webkit-text-fill-color: transparent;
@@ -579,13 +579,13 @@ gap: 0.5rem;
 padding: 0.5rem 1rem;
 background: linear-gradient(
 135deg,
-rgba(255, 108, 12, 0.15),
-rgba(255, 140, 64, 0.1)
+rgba(59, 130, 246, 0.15),
+rgba(96, 165, 250, 0.1)
 );
-border: 1px solid rgba(255, 108, 12, 0.3);
+border: 1px solid rgba(59, 130, 246, 0.3);
 border-radius: 2rem;
 font-size: 0.75rem;
-color: #ffb380;
+color: #93c5fd;
 text-transform: uppercase;
 letter-spacing: 0.1em;
 }
@@ -594,7 +594,7 @@ letter-spacing: 0.1em;
 content: "";
 width: 8px;
 height: 8px;
-background: #ff6c0c;
+background: #3b82f6;
 border-radius: 50%;
 animation: pulse 2s ease-in-out infinite;
 }
@@ -789,7 +789,7 @@ background-color: #262626;
 border-color: rgba(249, 115, 22, 0.3);
 }
 
-.text-orange-custom {
-color: #ff6c0c;
+.text-blue-custom {
+color: #3b82f6;
 }
 }

@@ -1,13 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { CreatePoolForm } from "@/components/form/create-pool-form";
 import { useCreatePool } from "@/hooks/mutation/pool/use-create-pool";
@@ -41,15 +39,6 @@ export const CreatePoolButton = () => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button
-          type="button"
-          size="sm"
-          className="rounded-lg border border-btn-create bg-btn-create px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white-custom transition-all hover:bg-btn-create-hover"
-        >
-          Create Pool
-        </Button>
-      </DialogTrigger>
 
       <DialogContent
         className={`max-w-[calc(100vw-2rem)] border border-border-primary bg-surface-primary text-text-heading transition-all duration-300 ${

@@ -524,7 +524,7 @@ export function CircleConnectButton() {
       <div className="relative">
         <button
           onClick={() => setIsDialogOpen(true)}
-          className="relative inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold cursor-pointer rounded-full bg-white text-black transition-all hover:bg-white/90 hover:shadow-lg hover:shadow-white/10"
+          className="relative inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold cursor-pointer rounded-full bg-blue-500 text-white transition-all hover:bg-blue-600 hover:shadow-lg hover:shadow-blue-500/20"
         >
           <Wallet className="w-4 h-4" />
           <span>Connect Wallet</span>
@@ -536,8 +536,8 @@ export function CircleConnectButton() {
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
               {/* Header */}
               <div className="text-center mb-6">
-                <div className="h-16 w-16 mx-auto mb-4 rounded-full border border-white/15 bg-white/6 flex items-center justify-center">
-                  <Wallet className="h-8 w-8 text-white" />
+                <div className="h-16 w-16 mx-auto mb-4 rounded-full border border-blue-500/30 bg-blue-500/10 flex items-center justify-center">
+                  <Wallet className="h-8 w-8 text-blue-400" />
                 </div>
                 <h2 className="text-2xl font-bold text-white">
                   Circle Wallet
@@ -554,7 +554,7 @@ export function CircleConnectButton() {
                   className={cn(
                     "flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all",
                     mode === "create"
-                    ? "bg-white text-black"
+                    ? "bg-blue-500 text-white"
                     : "bg-white/6 text-white/50 hover:bg-white/10",
                   )}
                 >
@@ -565,7 +565,7 @@ export function CircleConnectButton() {
                   className={cn(
                     "flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all",
                     mode === "login"
-                    ? "bg-white text-black"
+                    ? "bg-blue-500 text-white"
                     : "bg-white/6 text-white/50 hover:bg-white/10",
                   )}
                 >
@@ -584,7 +584,7 @@ export function CircleConnectButton() {
                   placeholder="Enter your unique user ID"
                   value={userId}
                   onChange={(e) => setUserId(e.target.value)}
-                  className="w-full px-4 py-3 border border-white/10 rounded-lg bg-white/3 text-white placeholder:text-white/20 focus:ring-2 focus:ring-white/20 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-white/10 rounded-lg bg-white/3 text-white placeholder:text-white/20 focus:ring-2 focus:ring-blue-500/40 focus:border-blue-500/30"
                 />
                 <p className="text-xs text-white/30">
                   {mode === "create"
@@ -614,7 +614,7 @@ export function CircleConnectButton() {
                 <button
                   onClick={handleConnect}
                   disabled={!userId.trim()}
-                  className="flex-1 py-3 px-4 bg-white text-black rounded-lg font-medium hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-3 px-4 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {mode === "create" ? "Create Wallet" : "Connect"}
                 </button>
@@ -645,9 +645,13 @@ export function CircleConnectButton() {
                 </span>
               </div>
             </div>
-            <div className="h-8 w-8 rounded-full border border-white/15 bg-white/6 flex items-center justify-center text-white text-sm font-medium">
-              {userId.slice(0, 2).toUpperCase()}
-            </div>
+            <Image
+              src="/avatar.png"
+              alt="Avatar"
+              width={32}
+              height={32}
+              className="h-8 w-8 rounded-full border border-white/15 object-cover"
+            />
           </div>
         </button>
 
@@ -662,9 +666,13 @@ export function CircleConnectButton() {
               {/* User Info */}
               <div className="p-4 border-b border-white/6">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full border border-white/15 bg-white/6 flex items-center justify-center text-white font-medium">
-                    {userId.slice(0, 2).toUpperCase()}
-                  </div>
+                  <Image
+                    src="/avatar.png"
+                    alt="Avatar"
+                    width={40}
+                    height={40}
+                    className="h-10 w-10 rounded-full border border-white/15 object-cover"
+                  />
                   <div className="flex flex-col">
                     <span className="font-semibold text-white">
                       {userId}

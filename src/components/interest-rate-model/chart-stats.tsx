@@ -26,17 +26,17 @@ export const ChartStats = ({
     <StatItem
       label="Current Borrow APR"
       value={`${borrowRate.toFixed(2)}%`}
-      color="text-black"
+      color="text-white"
     />
     <StatItem
       label="Supply APR"
       value={`${supplyRate.toFixed(2)}%`}
-      color="text-black"
+      color="text-white"
     />
     <StatItem
       label="Reserve Factor"
       value={`${reserveFactor.toFixed(2)}%`}
-      color="text-black"
+      color="text-white"
     />
   </div>
 );

@@ -1,6 +1,7 @@
 import type { HexAddress } from "@/types/types.d";
 import { FAUCET_TOKENS } from "../constants";
 import { FaucetTokenRow } from "./faucet-token-row";
+import { NativeFaucetRow } from "./native-faucet-row";
 
 interface FaucetTableProps {
   userAddress: HexAddress;
@@ -28,6 +29,7 @@ export const FaucetTable = ({ userAddress }: FaucetTableProps) => {
             </tr>
           </thead>
           <tbody className="divide-y divide-border-primary/50">
+            <NativeFaucetRow userAddress={userAddress} />
             {FAUCET_TOKENS.map((token) => (
               <FaucetTokenRow
                 key={token.address}

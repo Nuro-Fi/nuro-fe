@@ -69,7 +69,7 @@ export const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 flex justify-center px-2 pt-4 pb-2 pointer-events-none">
       <div className="pointer-events-auto flex w-full max-w-5xl items-center justify-between rounded-full border border-white/15 bg-white/6 px-6 py-2.5 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
-        <div className="flex items-center gap-2.5">
+        <Link href={`/${currentChainSlug}/markets`} className="flex items-center gap-2.5">
           <Image
             src="/nurologo-tg.png"
             alt="NuroFi"
@@ -80,7 +80,7 @@ export const Navbar = () => {
           <span className="text-lg font-bold tracking-tight text-white">
             NuroFi
           </span>
-        </div>
+        </Link>
 
         <nav
           className="hidden md:flex items-center gap-8"

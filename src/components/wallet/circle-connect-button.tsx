@@ -532,7 +532,7 @@ export function CircleConnectButton() {
 
         {/* Modal Dialog */}
         {isDialogOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm min-h-screen">
+          <div className="fixed inset-0 z-50 flex items-center justify-center min-h-screen">
             <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
               {/* Header */}
               <div className="text-center mb-6">

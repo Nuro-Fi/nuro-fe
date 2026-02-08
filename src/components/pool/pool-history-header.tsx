@@ -14,7 +14,7 @@ export const PoolHistoryHeader = ({
       <div className="flex items-center justify-between">
         <h2 className="flex items-center gap-2 text-sm font-semibold text-text-heading uppercase tracking-wide">
           <History className="h-4 w-4" />
-          Pool Activity History
+         Latest Activity History
         </h2>
         {!isLoading && totalTransactions > 0 && (
           <div className="flex items-center gap-2 text-xs text-text-muted">

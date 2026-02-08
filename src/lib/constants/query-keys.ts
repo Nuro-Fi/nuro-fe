@@ -73,7 +73,7 @@ export const INVALIDATE_KEYS = {
     "healthFactor",
     "maxBorrowAmount",
   ],
-  swap: ["pools", "tokenBalance", "balance", "position", "healthFactor"],
+  swap: ["pools", "tokenBalance", "balance", "position", "healthFactor", "collateralBalanceUser", "exchangeRate"],
   faucet: ["faucet-balance", "tokenBalance", "balance"],
 } as const;
 

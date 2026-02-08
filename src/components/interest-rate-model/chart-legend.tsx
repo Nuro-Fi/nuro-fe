@@ -12,7 +12,6 @@ const LegendItem = ({ color, label }: LegendItemProps) => (
 
 export const ChartLegend = () => (
   <div className="flex flex-wrap gap-6 text-sm">
-    <LegendItem color="bg-[#ff6c0c]" label="Borrow APR, variable" />
     <LegendItem color="bg-[#007bff]" label="Current Utilization" />
   </div>
 );

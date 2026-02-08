@@ -24,6 +24,7 @@ export const useHistoryTable = (items: HistoryItem[], customPageSize?: number) =
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    autoResetPageIndex: false,
     initialState: {
       pagination: {
         pageSize: customPageSize ?? PAGE_SIZE,

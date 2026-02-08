@@ -13,7 +13,7 @@ import {
 } from "recharts";
 
 import type { InterestRateChartProps } from "./types";
-import { toPercentage, calculateSupplyRate, generateChartData } from "./utils";
+import { toPercentage, toReserveFactorPercentage, calculateSupplyRate, generateChartData } from "./utils";
 import { ChartTooltip } from "./chart-tooltip";
 import { ChartLegend } from "./chart-legend";
 import { ChartStats } from "./chart-stats";
@@ -33,7 +33,7 @@ export const InterestRateChart = ({
   const maxRatePct = toPercentage(maxRate);
   const currentUtilizationPct = toPercentage(currentUtilization);
   const currentBorrowRatePct = toPercentage(currentBorrowRate);
-  const reserveFactorPct = toPercentage(reserveFactor);
+  const reserveFactorPct = toReserveFactorPercentage(reserveFactor);
 
   const chartData = useMemo(
     () =>

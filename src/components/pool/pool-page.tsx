@@ -15,9 +15,10 @@ import {
   usePoolRateByAddress,
   formatTotalSupply,
   formatTotalBorrow,
-  formatInterestRate,
 } from "@/hooks/graphql/use-pool-rates";
 import { InterestRateChart } from "@/components/interest-rate-model/interest-rate-chart";
+import { useHealthFactor } from "@/hooks/use-health-factor";
+import { useUserAddress } from "@/hooks/use-user-address";
 import PoolHeader from "./pool-header";
 
 export const PoolPage = () => {
@@ -33,6 +34,12 @@ export const PoolPage = () => {
   } = usePoolByAddress(poolAddress);
   const { data: poolRate, isLoading: isRatesLoading } =
     usePoolRateByAddress(poolAddress);
+  const { address: userAddress } = useUserAddress();
+  const { data: healthFactorData, isLoading: isHealthFactorLoading } =
+    useHealthFactor(
+      userAddress as `0x${string}` | undefined,
+      pool?.lendingPool as `0x${string}` | undefined,
+    );
 
   const isLoading = isPoolLoading || isRatesLoading;
 
@@ -63,8 +70,6 @@ export const PoolPage = () => {
   const totalBorrow = poolRate?.totalBorrowAssets
     ? formatTotalBorrow(poolRate.totalBorrowAssets, borrowDecimals)
     : 0;
-  const supplyApy = poolRate?.apy ? formatInterestRate(poolRate.apy) : 0;
-
   return (
     <PageContainer>
       <div className="flex flex-col gap-8 lg:flex-row">
@@ -74,7 +79,8 @@ export const PoolPage = () => {
             totalLiquidity={formatCompactNumber(totalLiquidity)}
             totalBorrow={formatCompactNumber(totalBorrow)}
             ltv={formatLtvFromRaw(pool.ltv)}
-            supplyApy={supplyApy.toFixed(2)}
+            healthFactor={healthFactorData?.healthFactorFormatted ?? "∞"}
+            healthFactorLoading={isHealthFactorLoading}
             totalSupplyAssets={totalSupplyAssetsFormatted}
             liquidationThreshold={formatLtvFromRaw(pool.liquidationThreshold)}
             borrowSymbol={pool.borrow.symbol}

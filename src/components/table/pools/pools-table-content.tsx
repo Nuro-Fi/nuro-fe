@@ -62,7 +62,7 @@ const HeaderButton = ({
       type="button"
       onClick={() => onSortChange(column)}
       className={cn(
-        "inline-flex w-full items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-text-muted hover:text-text-primary",
+        "inline-flex w-full items-center gap-1.5 text-xs font-medium uppercase tracking-wider text-gray-200 hover:text-text-primary",
         align === "right" ? "justify-end" : "justify-start",
       )}
     >

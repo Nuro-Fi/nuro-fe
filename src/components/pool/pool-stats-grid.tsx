@@ -1,4 +1,5 @@
 import { Loader2 } from "lucide-react";
+import { formatCompactNumber } from "@/lib/format/pool";
 
 interface StatItemProps {
   label: string;
@@ -29,7 +30,8 @@ interface PoolStatsGridProps {
   totalLiquidity: string;
   totalBorrow: string;
   ltv: string;
-  supplyApy: string;
+  healthFactor: string;
+  healthFactorLoading?: boolean;
   totalSupplyAssets: string;
   liquidationThreshold: string;
   borrowSymbol: string;
@@ -40,19 +42,20 @@ export const PoolStatsGrid = ({
   totalLiquidity,
   totalBorrow,
   ltv,
-  supplyApy,
+  healthFactor,
+  healthFactorLoading,
   totalSupplyAssets,
   liquidationThreshold,
   borrowSymbol,
   totalSupplyAssetsLoading,
 }: PoolStatsGridProps) => (
-  <div className="grid gap-4 border border-border-primary bg-surface-primary/80 p-4 text-sm text-text-primary sm:grid-cols-2 lg:grid-cols-3">
+  <div className="grid gap-4 border border-border-primary bg-surface-primary/80 p-4 text-sm text-primary sm:grid-cols-2 lg:grid-cols-3">
     <StatItem label="Total Liquidity" value={`$${totalLiquidity}`} />
     <StatItem label="Total Borrowed" value={`$${totalBorrow}`} />
     <StatItem label="LTV" value={ltv} />
     <StatItem
       label="Total Supply Assets"
-      value={`${totalSupplyAssets} ${borrowSymbol}`}
+      value={`${formatCompactNumber(parseFloat(totalSupplyAssets) || 0)} ${borrowSymbol}`}
       isLoading={totalSupplyAssetsLoading}
       valueClassName="text-white"
     />
@@ -62,8 +65,9 @@ export const PoolStatsGrid = ({
       valueClassName="text-white"
     />
     <StatItem
-      label="Supply APY"
-      value={`${supplyApy}%`}
+      label="Health Factor"
+      value={healthFactor}
+      isLoading={healthFactorLoading}
       valueClassName="text-white"
     />
   </div>

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   title: "Nuro fi ",
   description: "Nuro fi ",
   icons: {
-    icon: "/nuro.png",
+    icon: "/nurologo-tg.png",
   },
 };
 

@@ -18,6 +18,8 @@ import { ChartTooltip } from "./chart-tooltip";
 import { ChartLegend } from "./chart-legend";
 import { ChartStats } from "./chart-stats";
 
+const LABEL_COLLISION_THRESHOLD = 12; // percentage points
+
 export const InterestRateChart = ({
   baseRate,
   optimalUtilization,
@@ -58,6 +60,13 @@ export const InterestRateChart = ({
     currentUtilizationPct,
     reserveFactorPct,
   );
+
+  const labelsAreClose =
+    currentUtilizationPct > 0 &&
+    Math.abs(currentUtilizationPct - optimalUtilizationPct) < LABEL_COLLISION_THRESHOLD;
+
+  const currentLabelOffset = labelsAreClose ? -20 : 0;
+  const optimalLabelOffset = labelsAreClose ? 20 : 0;
 
   return (
     <div className="space-y-6 border border-border-primary bg-surface-primary/80 p-6">
@@ -125,6 +134,7 @@ export const InterestRateChart = ({
                   fill: "#3b82f6",
                   fontSize: 14,
                   fontWeight: 600,
+                  offset: currentLabelOffset,
                 }}
               />
             )}
@@ -139,6 +149,7 @@ export const InterestRateChart = ({
                 fill: "#10b981",
                 fontSize: 14,
                 fontWeight: 600,
+                offset: optimalLabelOffset,
               }}
             />
           </LineChart>

@@ -45,6 +45,7 @@ export const useReadTotalBorrowAssets = (
           functionName: "totalBorrowAssets",
           args: [],
         });
+        
         return result;
       } catch {
         return BigInt(0);

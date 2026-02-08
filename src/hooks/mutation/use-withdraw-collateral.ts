@@ -1,14 +1,15 @@
 "use client";
 
-import { writeContract } from "wagmi/actions";
 import { lendingPoolAbi } from "@/lib/abis/pool-abi";
-import { config } from "@/lib/config";
 import { WITHDRAW_COLLATERAL_CONFIG } from "@/lib/constants/mutation.constants";
 import type { WithdrawCollateralParams } from "@/types/types.d";
 import { useContractMutation } from "./core/use-contract-mutation";
 import { parseAmountToBigInt, validateAmount } from "./core/validation";
+import { useCircleWriteContract } from "@/hooks/use-circle-wagmi";
 
 export const useWithdrawCollateral = () => {
+  const { writeContract } = useCircleWriteContract();
+
   return useContractMutation<WithdrawCollateralParams>({
     toast: {
       toastId: WITHDRAW_COLLATERAL_CONFIG.toastId,
@@ -20,7 +21,7 @@ export const useWithdrawCollateral = () => {
     mutationFn: async ({ poolAddress, amount, decimals }) => {
       const amountBigInt = parseAmountToBigInt(amount, decimals);
 
-      return await writeContract(config, {
+      return await writeContract({
         address: poolAddress,
         abi: lendingPoolAbi,
         functionName: "withdrawCollateral",

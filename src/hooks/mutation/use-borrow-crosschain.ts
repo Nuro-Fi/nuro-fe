@@ -2,17 +2,17 @@
 
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { writeContract } from "wagmi/actions";
 import { lendingPoolAbi } from "@/lib/abis/pool-abi";
-import { config } from "@/lib/config";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
+import { useCircleWriteContract } from "@/hooks/use-circle-wagmi";
 import { toast } from "sonner";
-import { getLayerZeroExplorerUrl } from "@/lib/utils/block-explorer";
-import { waitForTxReceipt } from "@/lib/utils/wait-for-tx";
 import { isUserRejectedError } from "@/lib/utils/error.utils";
 import { invalidateKeys } from "@/lib/constants/query-keys";
 import type { HexAddress, TxStatus } from "@/types/types.d";
 import type { BorrowParams } from "@/hooks/use-get-fee";
+
+const LZ_EXPLORER_ADDRESS = "0x0c832FeE16d5A8BC99B888E16D3712E6BEf96Fb7";
+const LZ_TESTNET_EXPLORER_URL = `https://testnet.layerzeroscan.com/address/${LZ_EXPLORER_ADDRESS}`;
 
 export interface BorrowCrossChainParams {
   poolAddress: HexAddress;
@@ -22,7 +22,8 @@ export interface BorrowCrossChainParams {
 
 export const useBorrowCrossChain = () => {
   const queryClient = useQueryClient();
-  const { address } = useConnection();
+  const { address } = useUserAddress();
+  const { writeContract } = useCircleWriteContract();
 
   const [status, setStatus] = useState<TxStatus>("idle");
   const [txHash, setTxHash] = useState<HexAddress | null>(null);
@@ -56,36 +57,30 @@ export const useBorrowCrossChain = () => {
           id: "borrow-crosschain",
         });
 
-        const hash = await writeContract(config, {
+        await writeContract({
           address: poolAddress,
           abi: lendingPoolAbi,
           functionName: "borrowDebtCrossChain",
           args: [paramsWithFee],
           value: nativeFee,
         });
-        setTxHash(hash);
 
         toast.dismiss("borrow-crosschain");
-        toast.loading("Waiting for confirmation...", { id: "confirming" });
-
-        const result = await waitForTxReceipt(hash);
-
-        toast.dismiss("confirming");
         toast.success("Cross-chain borrow successful!", {
+          description: "Track your transaction on LayerZero Explorer",
           action: {
-            label: "Track on LayerZero",
-            onClick: () => window.open(getLayerZeroExplorerUrl(hash), "_blank"),
+            label: "View on Explorer",
+            onClick: () => window.open(LZ_TESTNET_EXPLORER_URL, "_blank"),
           },
+          duration: 10000,
         });
 
         setStatus("success");
-        invalidateKeys(queryClient, "borrow");
 
-        return result;
+        return { success: true };
       } catch (e) {
         const err = e as Error;
         toast.dismiss("borrow-crosschain");
-        toast.dismiss("confirming");
 
         if (isUserRejectedError(err)) {
           setStatus("idle");
@@ -97,6 +92,9 @@ export const useBorrowCrossChain = () => {
         }
 
         throw e;
+      } finally {
+        // Always invalidate queries after 3 seconds, regardless of success or failure
+        invalidateKeys(queryClient, "borrow");
       }
     },
   });

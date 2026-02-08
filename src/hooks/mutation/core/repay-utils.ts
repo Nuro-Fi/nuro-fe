@@ -6,7 +6,7 @@ export const calculateSharesFromPosition = (
   amountBigInt: bigint,
   decimals: number,
   totalBorrowAssets: bigint,
-  totalBorrowShares: bigint
+  totalBorrowShares: bigint,
 ): bigint => {
   if (totalBorrowAssets <= BigInt(0) || totalBorrowShares <= BigInt(0)) {
     return amountBigInt;
@@ -28,12 +28,12 @@ export const calculateSharesFromPosition = (
 export const calculateSharesSelectToken = (
   amountBigInt: bigint,
   totalBorrowAssets: bigint,
-  totalBorrowShares: bigint
+  totalBorrowShares: bigint,
 ): bigint => {
   if (totalBorrowAssets <= BigInt(0) || totalBorrowShares <= BigInt(0)) {
     return amountBigInt;
   }
 
   // Calculate shares: (amountIn * totalBorrowAssets) / totalBorrowShares
-  return (amountBigInt * totalBorrowAssets) / totalBorrowShares;
+  return (amountBigInt * totalBorrowShares) / totalBorrowAssets;
 };

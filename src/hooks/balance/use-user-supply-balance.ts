@@ -5,7 +5,7 @@ import { readContract } from "wagmi/actions";
 import { config } from "@/lib/config";
 import { erc20Abi, formatUnits, zeroAddress } from "viem";
 import { useReadSharesToken } from "../address/use-read-shares-token";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 
 export type HexAddress = `0x${string}`;
 
@@ -29,7 +29,7 @@ export const useReadUserSupplyBalance = (
   _tokenAddress?: HexAddress,
   _decimals?: number,
 ) => {
-  const { address: userAddress } = useConnection();
+  const { address: userAddress } = useUserAddress();
 
   const { sharesTokenAddress, sharesTokenLoading, sharesTokenError } =
     useReadSharesToken(lendingPoolAddress);
@@ -59,6 +59,7 @@ export const useReadUserSupplyBalance = (
           functionName: "balanceOf",
           args: [userAddress as HexAddress],
         });
+        
         return result;
       } catch (err) {
         console.error("Error reading user supply balance:", err);

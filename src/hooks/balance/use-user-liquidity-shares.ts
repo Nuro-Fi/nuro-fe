@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 import { readContract } from "wagmi/actions";
 import { config } from "@/lib/config";
 import { erc20Abi, formatUnits } from "viem";
@@ -34,7 +34,7 @@ export const useReadUserLiquidityBalance = (
   lendingPoolAddress: HexAddress,
   decimals: number
 ) => {
-  const { address } = useConnection();
+  const { address } = useUserAddress();
   const { sharesTokenAddress, sharesTokenLoading } =
     useReadSharesToken(lendingPoolAddress);
 

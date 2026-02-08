@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 import { readContract, getBalance } from "wagmi/actions";
 import { config } from "@/lib/config";
 import { formatUnits } from "viem/utils";
@@ -28,7 +28,7 @@ export const useUserWalletBalance = (
   decimals: number,
   enabled = true,
 ) => {
-  const { address } = useConnection();
+  const { address } = useUserAddress();
 
   const {
     data: rawBalance,

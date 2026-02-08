@@ -13,9 +13,9 @@ export interface TokenConfig {
 }
 
 export enum TokenSymbol {
-  USDC = "USDC",
-  USDT = "USDT",
-  WETH = "WETH",
+  mUSDC = "mUSDC",
+  mUSDT = "mUSDT",
+  mEURC = "mEURC",
 }
 
 export type TokensConfig = {

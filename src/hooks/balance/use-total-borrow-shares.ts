@@ -45,6 +45,7 @@ export const useReadTotalBorrowShares = (
           functionName: "totalBorrowShares",
           args: [],
         });
+        
         return result;
       } catch {
         return BigInt(0);

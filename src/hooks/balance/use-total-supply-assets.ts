@@ -44,6 +44,7 @@ export const useReadTotalSupplyAssets = (
           functionName: "totalSupplyAssets",
           args: [],
         });
+        
         return result;
       } catch {
         return BigInt(0);

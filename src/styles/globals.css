@@ -129,11 +129,11 @@
 
 /* Text Colors */
 --text-heading: #111827; /* gray-900 */
---text-primary: #1f2937; /* gray-800 */
+--text-primary: #111827; /* gray-900 */
 --text-secondary: #6b7280; /* gray-500 */
 --text-tertiary: #4b5563; /* gray-600 */
---text-muted: #9ca3af; /* gray-400 */
---text-disabled: #d1d5db; /* gray-300 */
+--text-muted: #d1d5db; /* gray-300 */
+--text-disabled: #e5e7eb; /* gray-200 */
 
 /* Status Colors - for transaction types, badges, etc. */
 --status-success: #3b82f6; /* blue */
@@ -315,12 +315,12 @@ color 150ms ease;
 }
 
 .btn-toggle--active {
-background-color: #ff6c0c !important;
+background-color: #3b82f6 !important;
 color: #ffffff !important;
 }
 
 .btn-toggle--active:hover {
-background-color: #ff6c0c !important;
+background-color: #2563eb !important;
 color: #ffffff !important;
 }
 
@@ -395,12 +395,12 @@ width: 100%;
 background-color: transparent;
 font-size: 1.875rem;
 font-weight: 600;
-color: #737373;
+color: #111827;
 outline: none;
 }
 
 .pool-card-input::placeholder {
-color: #404040;
+color: #d1d5db;
 }
 
 /* Alert/Info Box Styles */
@@ -483,12 +483,15 @@ z-index: 1;
 /* Enhanced table row hover */
 .pool-row {
 position: relative;
-transition: background-color 0.2s ease;
-background-color: rgba(23, 25, 35, 0.4);
+transition: all 0.3s ease;
+background-color: #ffffff;
+border-left: 3px solid transparent;
 }
 
 .pool-row:hover {
-background-color: rgba(30, 33, 45, 0.7);
+background-color: rgba(59, 130, 246, 0.08);
+border-left-color: #3b82f6;
+box-shadow: 0 2px 8px rgba(59, 130, 246, 0.12);
 }
 
 /* APY value glow effect */
@@ -523,7 +526,7 @@ inset: -2px;
 border-radius: 50%;
 background: radial-gradient(
 circle,
-rgba(255, 108, 12, 0.3),
+rgba(59, 130, 246, 0.35),
 transparent 70%
 );
 opacity: 0;

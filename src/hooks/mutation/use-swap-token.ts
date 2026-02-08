@@ -1,17 +1,18 @@
 "use client";
 
-import { writeContract } from "wagmi/actions";
 import { lendingPoolAbi } from "@/lib/abis/pool-abi";
-import { config } from "@/lib/config";
 import { SWAP_CONFIG } from "@/lib/constants/mutation.constants";
 import type { HexAddress, SwapParams } from "@/types/types.d";
 import { useContractMutation } from "./core/use-contract-mutation";
 import { parseAmountToBigInt, validateAmount } from "./core/validation";
+import { useCircleWriteContract } from "@/hooks/use-circle-wagmi";
 
 const AMOUNT_OUT_MINIMUM = BigInt(0);
 const SWAP_FEE = 1000;
 
 export const useSwapToken = () => {
+  const { writeContract } = useCircleWriteContract();
+
   return useContractMutation<SwapParams>({
     toast: {
       toastId: SWAP_CONFIG.toastId,
@@ -37,7 +38,7 @@ export const useSwapToken = () => {
         fee: SWAP_FEE,
       };
 
-      return await writeContract(config, {
+      return await writeContract({
         address: poolAddress,
         abi: lendingPoolAbi,
         functionName: "swapTokenByPosition",

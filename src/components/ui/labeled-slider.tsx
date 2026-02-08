@@ -53,7 +53,7 @@ export const LabeledSlider = ({
         step={step}
         value={value}
         onChange={(e) => onChange(parseFloat(e.target.value))}
-        className="w-full accent-[#FF6C0C] cursor-pointer"
+        className="w-full accent-[#3b82f6] cursor-pointer"
       />
 
       <div className="flex justify-between text-[10px] text-text-disabled">

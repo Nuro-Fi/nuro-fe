@@ -2,8 +2,8 @@
 
 import type { ReactNode } from "react";
 import { Wallet } from "lucide-react";
-import { useConnection } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useUserAddress } from "@/hooks/use-user-address";
+import { CircleConnectButton } from "@/components/wallet/circle-connect-button";
 
 interface ConnectWalletPromptProps {
   title?: string;
@@ -28,7 +28,7 @@ export const ConnectWalletPrompt = ({
           <h1 className="text-2xl font-semibold text-text-primary">{title}</h1>
           <p className="max-w-md text-sm text-text-secondary">{description}</p>
         </div>
-        <ConnectButton />
+        <CircleConnectButton />
       </section>
     );
   }
@@ -42,7 +42,7 @@ export const ConnectWalletPrompt = ({
       <p className="mb-6 max-w-sm text-center text-sm text-text-muted">
         {description}
       </p>
-      <ConnectButton />
+      <CircleConnectButton />
     </div>
   );
 };
@@ -88,8 +88,8 @@ export const ConnectionGuard = ({
   variant = "card",
   showLoading = false,
 }: ConnectionGuardProps) => {
-  const { isConnected, status } = useConnection();
-  const isLoading = status === "connecting" || status === "reconnecting";
+  const { isConnected, connectionState } = useUserAddress();
+  const isLoading = connectionState === "connecting" || connectionState === "creating-wallet";
 
   if (showLoading && isLoading) {
     return <>{loadingFallback || <LoadingSpinner variant={variant} />}</>;
@@ -114,10 +114,10 @@ export const ConnectionGuard = ({
 };
 
 export const useIsConnected = () => {
-  const { address, isConnected, status } = useConnection();
+  const { address, isConnected, connectionState } = useUserAddress();
   return {
     address,
     isConnected,
-    isConnecting: status === "connecting" || status === "reconnecting",
+    isConnecting: connectionState === "connecting" || connectionState === "creating-wallet",
   };
 };

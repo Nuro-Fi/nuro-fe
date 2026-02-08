@@ -43,6 +43,7 @@ export const useReadTotalSupplyShares = (
           functionName: "totalSupply",
           args: [],
         });
+        
         return result;
       } catch {
         return BigInt(0);

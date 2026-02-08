@@ -3,12 +3,13 @@ import { QUERY_KEYS } from "@/lib/constants/query-keys";
 import { HexAddress } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
 import { zeroAddress } from "viem";
-import { useConnection, usePublicClient } from "wagmi";
+import { usePublicClient } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 
 export const positionAddressKeys = QUERY_KEYS.positionAddress;
 
 const useReadPosition = (routerAddress: string) => {
-  const { address } = useConnection();
+  const { address } = useUserAddress();
   const publicClient = usePublicClient();
 
   const query = useQuery({

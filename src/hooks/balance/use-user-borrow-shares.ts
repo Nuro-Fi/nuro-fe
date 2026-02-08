@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { readContract } from "wagmi/actions";
 import { config } from "@/lib/config";
 import { formatUnits, zeroAddress } from "viem";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 import { routerAbi } from "@/lib/abis/router-abi";
 
 export type HexAddress = `0x${string}`;
@@ -19,7 +19,7 @@ export const useReadUserBorrowShares = (
   routerAddress: HexAddress | undefined,
   borrowTokenDecimals: number,
 ) => {
-  const { address: userAddress } = useConnection();
+  const { address: userAddress } = useUserAddress();
 
   const isValidAddress = routerAddress && routerAddress !== zeroAddress;
 

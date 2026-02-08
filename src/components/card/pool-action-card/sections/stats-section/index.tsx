@@ -5,7 +5,7 @@ import {
 import { useReadUserBorrowShares } from "@/hooks/balance/use-user-borrow-shares";
 import { usePoolByAddress } from "@/hooks/graphql/use-pools";
 import { useHealthFactor } from "@/hooks/use-health-factor";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 import type { HexAddress } from "@/types";
 import type { StatsSectionProps } from "./types";
 import { useUserBalance } from "./use-user-balance";
@@ -36,7 +36,7 @@ export const StatsSection = ({
   const { data: poolRate } = usePoolRateByAddress(poolAddress);
   const { data: pool } = usePoolByAddress(poolAddress);
   const routerAddress = pool?.router;
-  const { address } = useConnection();
+  const { address } = useUserAddress();
 
   const { data: healthFactorData, isLoading: isHealthFactorLoading } =
     useHealthFactor(address as HexAddress, poolAddress as HexAddress);

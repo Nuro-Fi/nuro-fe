@@ -49,7 +49,7 @@ export const RepayContent = ({
             spenderAddress: poolAddress as HexAddress,
             amount: state.amount,
             decimals: activeToken.decimals,
-            bufferPercent: 10,
+            bufferPercent: 50,
           },
           { onSuccess: () => actions.setHasApproved(true) },
         );

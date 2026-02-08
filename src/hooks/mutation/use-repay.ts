@@ -2,19 +2,15 @@
 
 import { useState, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { writeContract } from "wagmi/actions";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
+import { useCircleWriteContract } from "@/hooks/use-circle-wagmi";
 import { toast } from "sonner";
 import { lendingPoolAbi } from "@/lib/abis/pool-abi";
-import { config } from "@/lib/config";
-import { getBlockExplorerUrl } from "@/lib/utils/block-explorer";
-import { waitForTxReceipt } from "@/lib/utils/wait-for-tx";
 import { isUserRejectedError } from "@/lib/utils/error.utils";
 import { invalidateKeys } from "@/lib/constants/query-keys";
 import { useReadTotalBorrowAssets } from "@/hooks/balance/use-total-borrow-assets";
 import { useReadTotalBorrowShares } from "@/hooks/balance/use-total-borrow-shares";
 import { REPAY_CONFIG } from "@/lib/constants/mutation.constants";
-import { zeroAddress } from "viem";
 import type {
   HexAddress,
   TxStatus,
@@ -23,10 +19,11 @@ import type {
   UseRepayOptions,
   RepayMode,
 } from "@/types";
-import { calculateSharesFromPosition, calculateSharesSelectToken } from "./core/repay-utils";
+import {
+  calculateSharesFromPosition,
+  calculateSharesSelectToken,
+} from "./core/repay-utils";
 import { parseAmountToBigInt, validateAmount } from "./core/validation";
-
-const CONFIRMING_TOAST_ID = "confirming";
 
 const calculateShares = (
   amountBigInt: bigint,
@@ -63,14 +60,9 @@ const buildRepayArgs = (
   fee: 1000,
 });
 
-const showSuccessToast = (hash: HexAddress) => {
-  toast.dismiss(CONFIRMING_TOAST_ID);
-  toast.success(REPAY_CONFIG.successMessage, {
-    action: {
-      label: "View Transaction",
-      onClick: () => window.open(getBlockExplorerUrl(hash), "_blank"),
-    },
-  });
+const showSuccessToast = () => {
+  toast.dismiss(REPAY_CONFIG.toastId);
+  toast.success(REPAY_CONFIG.successMessage);
 };
 
 const handleError = (
@@ -79,7 +71,6 @@ const handleError = (
   setError: (error: string | null) => void,
 ): void => {
   toast.dismiss(REPAY_CONFIG.toastId);
-  toast.dismiss(CONFIRMING_TOAST_ID);
 
   if (isUserRejectedError(error)) {
     setStatus("idle");
@@ -92,17 +83,18 @@ const handleError = (
 };
 export const useRepay = (options?: UseRepayOptions) => {
   const queryClient = useQueryClient();
-  const { address } = useConnection();
+  const { address } = useUserAddress();
+  const { writeContract } = useCircleWriteContract();
 
   const poolAddress = options?.poolAddress;
   const decimals = options?.decimals ?? 18;
   const mode: RepayMode = options?.mode ?? "select-token";
   const { totalBorrowAssets } = useReadTotalBorrowAssets(
-    (poolAddress ?? zeroAddress) as HexAddress,
+    poolAddress! as HexAddress,
     decimals,
   );
   const { totalBorrowShares } = useReadTotalBorrowShares(
-    (poolAddress ?? zeroAddress) as HexAddress,
+    poolAddress! as HexAddress,
     decimals,
   );
 
@@ -114,10 +106,6 @@ export const useRepay = (options?: UseRepayOptions) => {
 
   const setStatus = useCallback(
     (status: TxStatus) => setState((prev) => ({ ...prev, status })),
-    [],
-  );
-  const setTxHash = useCallback(
-    (txHash: HexAddress | null) => setState((prev) => ({ ...prev, txHash })),
     [],
   );
   const setError = useCallback(
@@ -158,7 +146,7 @@ export const useRepay = (options?: UseRepayOptions) => {
         setStatus("loading");
         toast.loading("Repaying...", { id: REPAY_CONFIG.toastId });
 
-        const hash = await writeContract(config, {
+        await writeContract({
           address: poolAddress,
           abi: lendingPoolAbi,
           functionName: "repayWithSelectedToken",
@@ -171,23 +159,17 @@ export const useRepay = (options?: UseRepayOptions) => {
             ),
           ],
         });
-        setTxHash(hash);
 
-        toast.dismiss(REPAY_CONFIG.toastId);
-        toast.loading("Waiting for confirmation...", {
-          id: CONFIRMING_TOAST_ID,
-        });
-
-        const result = await waitForTxReceipt(hash);
-
-        showSuccessToast(hash);
+        showSuccessToast();
         setStatus("success");
-        invalidateKeys(queryClient, "repay");
 
-        return result;
+        return { success: true };
       } catch (e) {
         handleError(e as Error, setStatus, setError);
         throw e;
+      } finally {
+        // Always invalidate queries after 3 seconds, regardless of success or failure
+        invalidateKeys(queryClient, "repay");
       }
     },
   });

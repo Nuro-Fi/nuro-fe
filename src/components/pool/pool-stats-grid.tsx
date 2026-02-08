@@ -11,7 +11,7 @@ const StatItem = ({
   label,
   value,
   isLoading,
-  valueClassName = "text-white-custom",
+  valueClassName = "text-black",
 }: StatItemProps) => (
   <div>
     <div className="text-xs text-text-muted">{label}</div>
@@ -54,17 +54,17 @@ export const PoolStatsGrid = ({
       label="Total Supply Assets"
       value={`${totalSupplyAssets} ${borrowSymbol}`}
       isLoading={totalSupplyAssetsLoading}
-      valueClassName="text-white-custom"
+      valueClassName="text-black"
     />
     <StatItem
       label="Liquidation Threshold"
       value={liquidationThreshold}
-      valueClassName="text-white-custom"
+      valueClassName="text-black"
     />
     <StatItem
       label="Supply APY"
       value={`${supplyApy}%`}
-      valueClassName="text-white-custom"
+      valueClassName="text-black"
     />
   </div>
 );

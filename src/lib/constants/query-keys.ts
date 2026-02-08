@@ -24,6 +24,7 @@ export const INVALIDATE_KEYS = {
     "liquidityBalance",
     "totalSupplyAssets",
     "collateralBalance",
+    "collateralBalanceUser",
     "healthFactor",
     "maxBorrowAmount",
     "positionAddress",
@@ -34,6 +35,7 @@ export const INVALIDATE_KEYS = {
     "balance",
     "totalBorrowAssets",
     "totalBorrowShares",
+    "borrowShares",
     "userBorrowBalance",
     "healthFactor",
     "maxBorrowAmount",
@@ -44,6 +46,7 @@ export const INVALIDATE_KEYS = {
     "balance",
     "totalBorrowAssets",
     "totalBorrowShares",
+    "borrowShares",
     "userBorrowBalance",
     "healthFactor",
     "maxBorrowAmount",
@@ -60,6 +63,7 @@ export const INVALIDATE_KEYS = {
     "tokenBalance",
     "balance",
     "collateralBalance",
+    "collateralBalanceUser",
     "healthFactor",
     "maxBorrowAmount",
   ],
@@ -73,9 +77,12 @@ export const invalidateKeys = (
   queryClient: { invalidateQueries: (options: { queryKey: string[] }) => void },
   type: InvalidateKeyType,
 ) => {
-  INVALIDATE_KEYS[type].forEach((key) => {
-    queryClient.invalidateQueries({ queryKey: [key] });
-  });
+  // Delay 3 seconds to ensure blockchain state is updated
+  setTimeout(() => {
+    INVALIDATE_KEYS[type].forEach((key) => {
+      queryClient.invalidateQueries({ queryKey: [key] });
+    });
+  }, 3000);
 };
 
 export const invalidateHealthFactor = (queryClient: {

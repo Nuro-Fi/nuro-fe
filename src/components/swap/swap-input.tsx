@@ -10,7 +10,7 @@ import {
 import { getTokensArray } from "@/lib/addresses/tokens";
 import { Network, type TokenConfig } from "@/lib/addresses/types";
 
-const AVAILABLE_TOKENS: TokenConfig[] = getTokensArray(Network.AR );
+const AVAILABLE_TOKENS: TokenConfig[] = getTokensArray(Network.ARC );
 
 interface SwapInputProps {
   label: string;

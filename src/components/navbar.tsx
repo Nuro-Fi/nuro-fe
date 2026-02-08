@@ -4,13 +4,14 @@ import Link from "next/link";
 import { usePathname, useParams, useRouter } from "next/navigation";
 import { WalletButton } from "@/components/wallet/custom-wallet";
 import Image from "next/image";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 import { useEffect } from "react";
 import {
   DEFAULT_CHAIN,
   getChainBySlug,
   getChainById,
 } from "@/lib/constants/chains";
+import { useConnection } from "wagmi";
 
 const navItems = [
   { label: "Markets", href: "/markets" },
@@ -20,10 +21,13 @@ const navItems = [
 ];
 
 export const Navbar = () => {
+  const { address } = useConnection();
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
-  const { chainId, isConnected } = useConnection();
+  const { isConnected } = useUserAddress();
+  // For Circle SDK, we use the default chain since the wallet is on ARC Testnet
+  const chainId = 1946; // ARC Testnet chain ID
 
   const chainParam = params?.chain as string;
 

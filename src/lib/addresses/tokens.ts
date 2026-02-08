@@ -1,26 +1,26 @@
 import { Network, TokensConfig, TokenSymbol, TokenConfig } from "./types";
 export const TOKENS: Record<Network, TokensConfig> = {
   [Network.ARC]: {
-    [TokenSymbol.USDC]: {
-      name: "USDC",
-      symbol: "USDC",
+    [TokenSymbol.mUSDC]: {
+      name: "Mock USDC",
+      symbol: "mUSDC",
       logo: "/token/usdc.png",
       decimals: 6,
-      address: "0x00",
+      address: "0xdf05e9abf64da281b3cbd8ac3581022ec4841fb2",
     },
-    [TokenSymbol.USDT]: {
-      name: "Tether USD",
-      symbol: "USDT",
-      logo: "/token/usdt.png",
+    [TokenSymbol.mUSDT]: {
+      name: "Mock USYC",
+      symbol: "USYC",
+      logo: "/token/usyc.svg",
       decimals: 6,
-      address: "0x00",
+      address: "0x04C37dc1b538E00b31e6bc883E16d97cD7937a10",
     },
-    [TokenSymbol.WETH]: {
-      name: "Wrapped Ether",
-      symbol: "WETH",
-      logo: "/token/weth.png",
-      decimals: 18,
-      address: "0x000000000",
+    [TokenSymbol.mEURC]: {
+      name: "Mock EURC",
+      symbol: "mEURC",
+      logo: "/token/eurc.png",
+      decimals: 6,
+      address: "0x15858A57854BBf0DF60A737811d50e1Ee785f9bc",
     },
   },
 };
@@ -52,3 +52,4 @@ export const getTokensArray = (network: Network): TokenConfig[] => {
   }
   return Object.values(TOKENS[network]);
 };
+

@@ -1,12 +1,11 @@
 "use client";
 
-import { writeContract } from "wagmi/actions";
 import { lendingPoolAbi } from "@/lib/abis/pool-abi";
-import { config } from "@/lib/config";
 import { SUPPLY_CONFIG } from "@/lib/constants/mutation.constants";
 import type { SupplyParams } from "@/types/types.d";
 import { useContractMutation } from "./core/use-contract-mutation";
 import { parseAmountToBigInt, validateAmount } from "./core/validation";
+import { useCircleWriteContract } from "@/hooks/use-circle-wagmi";
 
 export type SupplyType = "liquidity" | "collateral";
 
@@ -16,6 +15,7 @@ interface UseSupplyOptions {
 
 export const useSupply = ({ type }: UseSupplyOptions) => {
   const cfg = SUPPLY_CONFIG[type];
+  const { writeContract } = useCircleWriteContract();
 
   return useContractMutation<SupplyParams>({
     toast: {
@@ -28,7 +28,7 @@ export const useSupply = ({ type }: UseSupplyOptions) => {
     mutationFn: async ({ poolAddress, amount, decimals }, userAddress) => {
       const amountBigInt = parseAmountToBigInt(amount, decimals);
 
-      return await writeContract(config, {
+      return await writeContract({
         address: poolAddress,
         abi: lendingPoolAbi,
         functionName: cfg.functionName,

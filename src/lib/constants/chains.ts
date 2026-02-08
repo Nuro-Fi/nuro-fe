@@ -74,7 +74,7 @@ export const BLOCK_EXPLORERS: Record<number, string> = {
 export const LAYERZERO_EXPLORER = "https://testnet.layerzeroscan.com";
 
 export const CONTRACT_ADDRESSES = {
-  HELPER: "0x000000000000000000000000" as const,
+  HELPER: "0x6c454d20F4CB5f69e2D66693fA8deE931D7432dF" as const,
 } as const;
 
 export const getChainConfig = (key: SupportedChainKey): CrossChainConfig => {

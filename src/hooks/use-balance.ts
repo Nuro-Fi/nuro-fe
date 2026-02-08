@@ -1,12 +1,12 @@
 "use client";
-import { useConnection } from "wagmi";
 import { useQuery } from "@tanstack/react-query";
 import { getBalance } from "wagmi/actions";
 import { config } from "@/lib/config";
+import { useUserAddress } from "@/hooks/use-user-address";
 import type { HexAddress } from "@/types/types";
 
 const useUserBalance = () => {
-  const { address } = useConnection();
+  const { address } = useUserAddress();
 
   const { data, isPending, isError } = useQuery({
     queryKey: ["balance", address],

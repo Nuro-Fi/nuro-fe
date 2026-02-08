@@ -77,7 +77,7 @@ export const BorrowStats = ({
         crossChainFee > BigInt(0) && (
           <StatRow
             label="LayerZero Fee"
-            value={`${parseFloat(formatUnits(crossChainFee, 18)).toFixed(4)} ARC`}
+            value={`${parseFloat(formatUnits(crossChainFee, 18)).toFixed(4)} USDC`}
             valueColor="text-blue-300"
           />
         )}

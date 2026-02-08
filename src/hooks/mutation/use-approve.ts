@@ -1,17 +1,17 @@
 "use client";
 
-import { writeContract } from "wagmi/actions";
 import { erc20Abi } from "viem";
-import { config } from "@/lib/config";
 import { APPROVE_CONFIG } from "@/lib/constants/mutation.constants";
 import type { ApproveParams } from "@/types/types.d";
 import { useContractMutation } from "./core/use-contract-mutation";
 import { parseAmountToBigInt, validateAmount } from "./core/validation";
+import { useCircleWriteContract } from "@/hooks/use-circle-wagmi";
 
 type ApproveType = "default" | "liquidity" | "collateral";
 
 export const useApprove = (type: ApproveType = "default") => {
   const cfg = APPROVE_CONFIG[type];
+  const { writeContract } = useCircleWriteContract();
 
   return useContractMutation<ApproveParams>({
     toast: {
@@ -25,7 +25,7 @@ export const useApprove = (type: ApproveType = "default") => {
       spenderAddress,
       amount,
       decimals,
-      bufferPercent = 0,
+      bufferPercent = 20,
     }) => {
       let amountBigInt = parseAmountToBigInt(amount, decimals);
 
@@ -34,7 +34,7 @@ export const useApprove = (type: ApproveType = "default") => {
         amountBigInt = (amountBigInt * bufferMultiplier) / BigInt(100);
       }
 
-      return await writeContract(config, {
+      return await writeContract({
         address: tokenAddress,
         abi: erc20Abi,
         functionName: "approve",

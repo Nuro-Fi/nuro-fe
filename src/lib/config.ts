@@ -1,10 +1,12 @@
-import { getDefaultConfig } from '@rainbow-me/rainbowkit';
+import { createConfig, http } from 'wagmi';
 import { arcTestnet } from 'viem/chains';
+import { circleConnector } from './circle-connector';
 
-export const config = getDefaultConfig({
-  appName: 'My RainbowKit App',
-  projectId: 'YOUR_PROJECT_ID',
+export const config = createConfig({
   chains: [arcTestnet],
+  connectors: [circleConnector({ chains: [arcTestnet] })],
+  transports: {
+    [arcTestnet.id]: http(),
+  },
   ssr: true,
 });
-

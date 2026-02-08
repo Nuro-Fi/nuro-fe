@@ -2,16 +2,12 @@
 
 import { useState, useCallback } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useConnection } from "wagmi";
+import { useUserAddress } from "@/hooks/use-user-address";
 import { toast } from "sonner";
-import { getBlockExplorerUrl } from "@/lib/utils/block-explorer";
-import { waitForTxReceipt } from "@/lib/utils/wait-for-tx";
 import { isUserRejectedError } from "@/lib/utils/error.utils";
 import { invalidateKeys } from "@/lib/constants/query-keys";
 import type { HexAddress, TxStatus } from "@/types/types.d";
 import type { ContractMutationOptions, ContractMutationResult } from "./types";
-
-const CONFIRMING_TOAST_ID = "confirming";
 
 export function useContractMutation<TParams>(
   options: ContractMutationOptions<TParams>,
@@ -19,7 +15,7 @@ export function useContractMutation<TParams>(
   const { toast: toastConfig, invalidateType, validate, mutationFn } = options;
 
   const queryClient = useQueryClient();
-  const { address } = useConnection();
+  const { address } = useUserAddress();
 
   const [status, setStatus] = useState<TxStatus>("idle");
   const [txHash, setTxHash] = useState<HexAddress | null>(null);
@@ -51,31 +47,14 @@ export function useContractMutation<TParams>(
         setTxHash(hash);
 
         toast.dismiss(toastConfig.toastId);
-        toast.loading("Waiting for confirmation...", {
-          id: CONFIRMING_TOAST_ID,
-        });
-
-        const result = await waitForTxReceipt(hash);
-
-        toast.dismiss(CONFIRMING_TOAST_ID);
-        toast.success(toastConfig.successMessage, {
-          action: {
-            label: "View Transaction",
-            onClick: () => window.open(getBlockExplorerUrl(hash), "_blank"),
-          },
-        });
+        toast.success(toastConfig.successMessage);
 
         setStatus("success");
 
-        if (invalidateType) {
-          invalidateKeys(queryClient, invalidateType);
-        }
-
-        return result;
+        return { success: true };
       } catch (e) {
         const err = e as Error;
         toast.dismiss(toastConfig.toastId);
-        toast.dismiss(CONFIRMING_TOAST_ID);
 
         if (isUserRejectedError(err)) {
           setStatus("idle");
@@ -87,6 +66,11 @@ export function useContractMutation<TParams>(
         }
 
         throw e;
+      } finally {
+        // Always invalidate queries after 3 seconds, regardless of success or failure
+        if (invalidateType) {
+          invalidateKeys(queryClient, invalidateType);
+        }
       }
     },
   });

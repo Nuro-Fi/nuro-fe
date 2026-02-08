@@ -1,14 +1,15 @@
 "use client";
 
-import { writeContract } from "wagmi/actions";
 import { lendingPoolAbi } from "@/lib/abis/pool-abi";
-import { config } from "@/lib/config";
 import { WITHDRAW_LIQUIDITY_CONFIG } from "@/lib/constants/mutation.constants";
 import type { WithdrawLiquidityParams } from "@/types/types.d";
 import { useContractMutation } from "./core/use-contract-mutation";
 import { validateBigIntPositive } from "./core/validation";
+import { useCircleWriteContract } from "@/hooks/use-circle-wagmi";
 
 export const useWithdrawLiquidity = () => {
+  const { writeContract } = useCircleWriteContract();
+
   return useContractMutation<WithdrawLiquidityParams>({
     toast: {
       toastId: WITHDRAW_LIQUIDITY_CONFIG.toastId,
@@ -19,7 +20,7 @@ export const useWithdrawLiquidity = () => {
     validate: (params) =>
       validateBigIntPositive(params.shares, "shares amount"),
     mutationFn: async ({ poolAddress, shares }) => {
-      return await writeContract(config, {
+      return await writeContract({
         address: poolAddress,
         abi: lendingPoolAbi,
         functionName: "withdrawLiquidity",

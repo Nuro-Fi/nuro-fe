@@ -11,7 +11,7 @@ export const useReadOracleRoundData = (tokenAddress?: HexAddress) => {
     isLoading,
     error,
   } = useReadContract({
-    address: "0x00000000000",
+    address: "0xE2e025Ff8a8adB2561e3C631B5a03842b9A1Ae88",
     abi: tokenDataAbi,
     functionName: "latestRoundData",
     args: tokenAddress ? [tokenAddress] : undefined,

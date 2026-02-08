@@ -12,7 +12,7 @@ export const AdvancedPoolParameters = ({
   control,
 }: AdvancedPoolParametersProps) => {
   return (
-    <div className="space-y-4 rounded-none p-4">
+    <div className="space-y-4 rounded-lg p-4">
       <Controller
         name="baseRate"
         control={control}

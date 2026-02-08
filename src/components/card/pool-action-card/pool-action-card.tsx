@@ -53,7 +53,7 @@ export const PoolActionCard = ({
   };
 
   return (
-    <Card className="flex h-full w-104 flex-col rounded-none border-border-primary bg-surface-primary gap-0 p-4">
+    <Card className="flex h-full w-104 flex-col rounded-2xl border-white/10 bg-white/3 gap-0 p-4">
       <ActionTabs activeTab={activeTab} onChange={setActiveTab} />
       <CardContent className="flex flex-1 flex-col gap-3 p-0">
         <ConnectionGuard

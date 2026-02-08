@@ -21,13 +21,13 @@ const navItems = [
 ];
 
 export const Navbar = () => {
-  const { address } = useConnection();
+  useConnection();
   const pathname = usePathname();
   const params = useParams();
   const router = useRouter();
   const { isConnected } = useUserAddress();
   // For Circle SDK, we use the default chain since the wallet is on ARC Testnet
-  const chainId = 1946; // ARC Testnet chain ID
+  const chainId = 5042002; // ARC Testnet chain ID
 
   const chainParam = params?.chain as string;
 
@@ -67,47 +67,44 @@ export const Navbar = () => {
   }, [isConnected, chainId, currentChainConfig, chainParam, pathname, router]);
 
   return (
-    <header className="sticky top-0 z-40 bg-white text-blue-900 border-b border-blue-200/50 backdrop-blur-xl shadow-sm">
-      <div className="w-full px-4 md:px-16 py-3 flex items-center justify-between gap-5">
-        <div className="flex items-center flex-1 min-w-0 gap-7">
-          <div className="flex items-center gap-2 font-semibold tracking-widest uppercase text-sm">
-            <Image
-              src="/nuro.png"
-              alt="nuro"
-              width={40}
-              height={40}
-              className="rounded-full object-cover"
-            />
-          </div>
-
-          <nav
-            className="hidden md:flex items-center gap-6"
-            aria-label="Main navigation"
-          >
-            {navItems.map((item) => {
-              const href = `/${currentChainSlug}${item.href}`;
-              const isActive = pathname?.startsWith(href);
-
-              return (
-                <Link
-                  key={item.href}
-                  href={href}
-                  className={`
-                    relative text-sm font-semibold uppercase tracking-[0.16em] py-0.5 transition-colors duration-150
-                    after:content-[''] after:absolute after:left-0 after:bottom-[-0.35rem] after:w-0 after:h-[2px] 
-                    after:bg-linear-to-r after:from-blue-600 after:to-blue-400 after:transition-[width] after:duration-180 
-                    hover:text-blue-700 hover:after:w-full
-                    ${isActive ? "text-blue-600 after:w-full font-bold" : "text-blue-500"}
-                  `}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
+    <header className="sticky top-0 z-50 flex justify-center px-6 pt-4 pb-2 pointer-events-none">
+      <div className="pointer-events-auto flex w-full max-w-5xl items-center justify-between rounded-full border border-white/15 bg-white/6 px-6 py-2.5 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
+        <div className="flex items-center gap-2.5">
+          <Image
+            src="/nurologo-tg.png"
+            alt="NuroFi"
+            width={28}
+            height={28}
+            className="rounded-lg"
+          />
+          <span className="text-lg font-bold tracking-tight text-white">
+            NuroFi
+          </span>
         </div>
 
-        <div className="flex items-center gap-2 md:gap-3">
+        <nav
+          className="hidden md:flex items-center gap-8"
+          aria-label="Main navigation"
+        >
+          {navItems.map((item) => {
+            const href = `/${currentChainSlug}${item.href}`;
+            const isActive = pathname?.startsWith(href);
+
+            return (
+              <Link
+                key={item.href}
+                href={href}
+                className={`text-xs font-medium uppercase tracking-wider transition-colors hover:text-white ${
+                  isActive ? "text-white" : "text-white/50"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="flex items-center">
           <WalletButton />
         </div>
       </div>

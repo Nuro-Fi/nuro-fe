@@ -25,7 +25,7 @@ export const HistoryTable = ({ items, hidePagination = false }: HistoryTableProp
   const endItem = Math.min((pageIndex + 1) * pageSize, totalItems);
 
   return (
-    <div>
+    <div className="overflow-hidden rounded-lg">
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
@@ -79,7 +79,7 @@ export const HistoryTable = ({ items, hidePagination = false }: HistoryTableProp
             <button
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
-              className="flex h-8 w-8 items-center justify-center rounded-none border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
               title="First page"
             >
               <ChevronsLeft className="h-4 w-4" />
@@ -88,7 +88,7 @@ export const HistoryTable = ({ items, hidePagination = false }: HistoryTableProp
             <button
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="flex h-8 w-8 items-center justify-center rounded-none border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
               title="Previous page"
             >
               <ChevronLeft className="h-4 w-4" />
@@ -106,7 +106,7 @@ export const HistoryTable = ({ items, hidePagination = false }: HistoryTableProp
             <button
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="flex h-8 w-8 items-center justify-center rounded-none border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
               title="Next page"
             >
               <ChevronRight className="h-4 w-4" />
@@ -115,7 +115,7 @@ export const HistoryTable = ({ items, hidePagination = false }: HistoryTableProp
             <button
               onClick={() => table.setPageIndex(pageCount - 1)}
               disabled={!table.getCanNextPage()}
-              className="flex h-8 w-8 items-center justify-center rounded-none border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border-secondary bg-surface-primary text-text-secondary transition-colors hover:bg-surface-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-surface-primary"
               title="Last page"
             >
               <ChevronsRight className="h-4 w-4" />

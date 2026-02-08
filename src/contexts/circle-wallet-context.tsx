@@ -69,8 +69,8 @@ export function CircleWalletProvider({ children }: { children: ReactNode }) {
   const [connectionState, setConnectionState] =
     useState<ConnectionState>("disconnected");
 
-  // Hydrate from localStorage after mount
-  useEffect(() => {
+  // Sync state from localStorage
+  const syncFromStorage = useCallback(() => {
     const savedUserId = window.localStorage.getItem("circleUserId") || "";
     const savedUserToken = window.localStorage.getItem("circleUserToken");
     const savedEncryptionKey = window.localStorage.getItem(
@@ -78,13 +78,15 @@ export function CircleWalletProvider({ children }: { children: ReactNode }) {
     );
     const savedWallets = window.localStorage.getItem("circleWallets");
 
-    if (savedUserId) setUserId(savedUserId);
+    setUserId(savedUserId);
 
     if (savedUserToken && savedEncryptionKey) {
       setLoginResult({
         userToken: savedUserToken,
         encryptionKey: savedEncryptionKey,
       });
+    } else {
+      setLoginResult(null);
     }
 
     if (savedWallets) {
@@ -99,12 +101,35 @@ export function CircleWalletProvider({ children }: { children: ReactNode }) {
           parsedWallets.length > 0
         ) {
           setConnectionState("connected");
+        } else {
+          setConnectionState("disconnected");
         }
       } catch {
-        // Invalid JSON
+        setWallets([]);
+        setConnectionState("disconnected");
       }
+    } else {
+      setWallets([]);
+      setConnectionState("disconnected");
     }
   }, []);
+
+  // Hydrate from localStorage after mount
+  useEffect(() => {
+    syncFromStorage();
+  }, [syncFromStorage]);
+
+  // Listen for wallet changes from CircleConnectButton
+  useEffect(() => {
+    const handleWalletChanged = () => {
+      syncFromStorage();
+    };
+
+    window.addEventListener("circle-wallet-changed", handleWalletChanged);
+    return () => {
+      window.removeEventListener("circle-wallet-changed", handleWalletChanged);
+    };
+  }, [syncFromStorage]);
 
   // Initialize SDK
   useEffect(() => {

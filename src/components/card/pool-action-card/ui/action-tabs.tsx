@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { CardHeader } from "@/components/ui/card";
 
 import { TABS, type Tab } from "../types";
 
@@ -10,29 +9,24 @@ interface ActionTabsProps {
 
 export const ActionTabs = ({ activeTab, onChange }: ActionTabsProps) => {
   return (
-    <CardHeader className="mb-3 flex flex-row gap-0 p-0">
-      <div className="flex w-full border border-border-primary bg-surface-secondary">
-        {TABS.map((tab, index) => {
-          const isActive = activeTab === tab;
-          return (
-            <Button
-              key={tab}
-              type="button"
-              variant="ghost"
-              onClick={() => onChange(tab)}
-              className={[
-                "btn-tab",
-                index !== 0 && "border-l border-border-primary",
-                isActive ? "btn-tab--active" : "btn-tab--inactive",
-              ]
-                .filter(Boolean)
-                .join(" ")}
-            >
-              {tab}
-            </Button>
-          );
-        })}
-      </div>
-    </CardHeader>
+    <div className="mb-3 flex gap-1.5 rounded-xl bg-white/3 border border-white/10 p-1">
+      {TABS.map((tab) => {
+        const isActive = activeTab === tab;
+        return (
+          <Button
+            key={tab}
+            type="button"
+            variant="ghost"
+            onClick={() => onChange(tab)}
+            className={[
+              "btn-tab",
+              isActive ? "btn-tab--active" : "btn-tab--inactive",
+            ].join(" ")}
+          >
+            {tab}
+          </Button>
+        );
+      })}
+    </div>
   );
 };

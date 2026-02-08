@@ -63,8 +63,8 @@ const PoolHeaderSkeleton = () => (
 
 const StatItemSkeleton = ({ valueWidth = "w-20" }: { valueWidth?: string }) => (
   <div>
-    <SkeletonBox className="h-3 w-24 rounded-none" />
-    <SkeletonBox className={`mt-2 h-5 ${valueWidth} rounded-none`} />
+    <SkeletonBox className="h-3 w-24 rounded-lg" />
+    <SkeletonBox className={`mt-2 h-5 ${valueWidth} rounded-lg`} />
   </div>
 );
 
@@ -107,7 +107,7 @@ const InterestRateChartSkeleton = () => (
       {/* Y-axis labels */}
       <div className="absolute left-0 top-0 flex h-full flex-col justify-between py-2">
         {[...Array(6)].map((_, i) => (
-          <SkeletonBox key={i} className="h-3 w-8 rounded-none" />
+          <SkeletonBox key={i} className="h-3 w-8 rounded-lg" />
         ))}
       </div>
 
@@ -148,7 +148,7 @@ const InterestRateChartSkeleton = () => (
         {/* X-axis labels */}
         <div className="flex justify-between pt-3">
           {[0, 25, 50, 75, 100].map((val) => (
-            <SkeletonBox key={val} className="h-3 w-8 rounded-none" />
+            <SkeletonBox key={val} className="h-3 w-8 rounded-lg" />
           ))}
         </div>
       </div>

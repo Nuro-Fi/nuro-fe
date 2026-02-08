@@ -28,7 +28,7 @@ export const TokenPriceChart = ({
       : "Token Price";
 
   return (
-    <div className="rounded-none border border-border-primary bg-surface-primary p-4 text-xs text-text-tertiary">
+    <div className="rounded-lg border border-border-primary bg-surface-primary p-4 text-xs text-text-tertiary">
       <div className="mb-4 space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>

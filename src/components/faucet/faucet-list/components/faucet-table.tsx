@@ -8,7 +8,7 @@ interface FaucetTableProps {
 
 export const FaucetTable = ({ userAddress }: FaucetTableProps) => {
   return (
-    <div className="overflow-hidden border border-border-primary bg-surface-primary/50">
+    <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/3">
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>

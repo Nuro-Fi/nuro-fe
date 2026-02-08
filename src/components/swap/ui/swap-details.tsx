@@ -49,7 +49,7 @@ export const SwapDetails = ({
   exchangeRate,
   isLoadingRate,
 }: SwapDetailsProps) => (
-  <div className="mt-4 rounded-none border border-border-primary bg-surface-secondary/50 p-3">
+  <div className="mt-4 rounded-lg border border-border-primary bg-surface-secondary/50 p-3">
     <RateRow
       tokenIn={tokenIn}
       tokenOut={tokenOut}

@@ -10,7 +10,7 @@ export const HeroSection = () => {
       <div className="z-10 flex items-center gap-3">
         <h1 className="hero-title">Lending Markets</h1>
         <div className="flex items-center justify-center opacity-80 transition-opacity hover:opacity-100">
-          <div className="overflow-hidden rounded-full shadow-[0_0_15px_rgba(59,130,246,0.2)]">
+          <div className="overflow-hidden rounded-full border border-white/10">
             <Image
               alt="ARC Testnet"
               src="/chain/arc.png"

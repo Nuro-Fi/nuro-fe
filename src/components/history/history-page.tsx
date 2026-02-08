@@ -1,5 +1,4 @@
 "use client";
-import { HistoryTableSkeleton } from "@/components/skeleton/history-table-skeleton";
 import {
   ConnectionGuard,
   useIsConnected,
@@ -11,32 +10,31 @@ interface HistoryPageProps {
   userAddress?: string;
 }
 
+const HistoryInner = ({ propUserAddress }: { propUserAddress?: string }) => {
+  const { address } = useIsConnected();
+  const activeAddress = propUserAddress || address || undefined;
+
+  return (
+    <div className="flex flex-col gap-6">
+      <HistoryContent userAddress={activeAddress} />
+    </div>
+  );
+};
+
 export const HistoryPage = ({
   userAddress: propUserAddress,
 }: HistoryPageProps) => {
-  const { address, isConnecting } = useIsConnected();
-  const activeAddress = propUserAddress || address;
-
   return (
     <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
       <PageHeader />
-      <div className="flex flex-col gap-6">
-        {!propUserAddress && isConnecting ? (
-          <div className="overflow-hidden rounded-none border border-border-primary bg-surface-primary/50">
-            <HistoryTableSkeleton />
-          </div>
-        ) : !propUserAddress && !activeAddress ? (
-          <ConnectionGuard
-            promptTitle="Connect Your Wallet"
-            promptDescription="Connect your wallet to view your personal transaction history"
-            showLoading={false}
-          >
-            <HistoryContent userAddress={activeAddress} />
-          </ConnectionGuard>
-        ) : (
-          <HistoryContent userAddress={activeAddress} />
-        )}
-      </div>
+      <ConnectionGuard
+        variant="fullpage"
+        showLoading
+        promptTitle="Connect Your Wallet"
+        promptDescription="Connect your wallet to view your transaction history."
+      >
+        <HistoryInner propUserAddress={propUserAddress} />
+      </ConnectionGuard>
     </div>
   );
 };

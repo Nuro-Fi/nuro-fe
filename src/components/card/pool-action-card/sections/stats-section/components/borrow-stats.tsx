@@ -78,7 +78,7 @@ export const BorrowStats = ({
           <StatRow
             label="LayerZero Fee"
             value={`${parseFloat(formatUnits(crossChainFee, 18)).toFixed(4)} USDC`}
-            valueColor="text-blue-300"
+            valueColor="text-white/40"
           />
         )}
       {showHealthFactor && renderHealthFactor()}

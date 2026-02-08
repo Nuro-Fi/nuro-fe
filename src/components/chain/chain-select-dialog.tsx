@@ -31,7 +31,7 @@ export const ChainSelectDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-none border border-border-primary bg-surface-primary p-0 text-text-heading sm:max-w-md">
+      <DialogContent className="rounded-lg border border-border-primary bg-surface-primary p-0 text-text-heading sm:max-w-md">
         <DialogHeader className="border-b border-border-primary px-6 py-4">
           <DialogTitle className="text-lg font-semibold text-text-heading">
             Select Destination Chain
@@ -49,7 +49,7 @@ export const ChainSelectDialog = ({
                 type="button"
                 onClick={() => handleSelect(chain)}
                 className={cn(
-                  "flex w-full items-center gap-3 rounded-none px-3 py-3 text-left transition-colors",
+                  "flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors",
                   selectedChain?.chainId === chain.chainId
                     ? "border border-border-secondary bg-surface-secondary"
                     : "hover:bg-surface-secondary/70"

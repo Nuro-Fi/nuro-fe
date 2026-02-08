@@ -35,7 +35,7 @@ export const TokenSelectDialogRow = ({
     <button
       type="button"
       onClick={() => onSelect(token)}
-      className="flex w-full items-center gap-3 rounded-none px-3 py-3 text-left transition-colors hover:bg-surface-secondary/70"
+      className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors hover:bg-surface-secondary/70"
     >
       <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-border-primary bg-surface-secondary">
         <Image

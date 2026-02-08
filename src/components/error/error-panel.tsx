@@ -27,10 +27,10 @@ const VARIANT_STYLES: Record<
     details: "text-yellow-200/80",
   },
   info: {
-    container: "border-blue-800/60 bg-blue-950/40 text-blue-200",
-    title: "text-blue-100",
-    message: "text-blue-200/90",
-    details: "text-blue-200/80",
+    container: "border-white/[0.10] bg-white/[0.03] text-white/50",
+    title: "text-white/70",
+    message: "text-white/50",
+    details: "text-white/40",
   },
   neutral: {
     container: "border-border-primary bg-surface-primary/50 text-text-secondary",
@@ -71,7 +71,7 @@ export const ErrorPanel = ({
   return (
     <section
       className={cn(
-        "space-y-3 rounded-none border p-6 text-sm",
+        "space-y-3 rounded-2xl border p-6 text-sm",
         styles.container,
         className,
       )}

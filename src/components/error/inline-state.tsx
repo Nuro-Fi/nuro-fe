@@ -18,7 +18,7 @@ export interface InlineStateProps {
 }
 
 const VARIANT_CLASS: Record<InlineStateVariant, string> = {
-  error: "text-red-300",
+  error: "text-red-400",
   empty: "text-text-muted",
   info: "text-text-muted",
 };

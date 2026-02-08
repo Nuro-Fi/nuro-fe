@@ -5,6 +5,7 @@ import { useConnect, useDisconnect, useAccount } from "wagmi";
 import { useCircleWallet } from "@/contexts/circle-wallet-context";
 import { useConnectors } from "wagmi";
 import { useUserAddressActions } from "@/hooks/use-user-address";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function useCircleWagmiSync() {
   const {
@@ -17,6 +18,7 @@ export function useCircleWagmiSync() {
   const disconnect = useDisconnect();
   const { address: wagmiAddress, isConnected: isWagmiConnected } = useAccount();
   const { invalidateUserAddress } = useUserAddressActions();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const circleConnector = connectors.find((c) => c.id === "circle-wallet");
@@ -38,10 +40,10 @@ export function useCircleWagmiSync() {
               {
                 onSuccess: async () => {
                   console.log(
-                    "Wagmi connected, invalidating user address cache",
+                    "Wagmi connected, invalidating all queries",
                   );
-                  // Invalidate user address setelah wagmi connect berhasil
                   await invalidateUserAddress();
+                  await queryClient.invalidateQueries();
                 },
               },
             );
@@ -54,9 +56,10 @@ export function useCircleWagmiSync() {
         console.log("Disconnecting wagmi to sync with Circle wallet state");
         disconnect.mutate(undefined, {
           onSuccess: async () => {
-            console.log("Wagmi disconnected, invalidating user address cache");
-            // Invalidate user address setelah wagmi disconnect
+            console.log("Wagmi disconnected, invalidating all queries");
             await invalidateUserAddress();
+            queryClient.removeQueries();
+            await queryClient.invalidateQueries();
           },
         });
       }
@@ -74,5 +77,6 @@ export function useCircleWagmiSync() {
     disconnect,
     connectors,
     invalidateUserAddress,
+    queryClient,
   ]);
 }

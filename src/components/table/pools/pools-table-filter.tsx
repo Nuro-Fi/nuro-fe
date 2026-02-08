@@ -44,7 +44,7 @@ export const PoolsTableFilter = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-none border border-border-secondary bg-surface-primary px-3 py-2 text-xs font-medium text-text-primary transition-colors hover:border-border-hover"
+        className="flex items-center gap-2 rounded-lg border border-border-secondary bg-surface-primary px-3 py-2 text-xs font-medium text-text-primary transition-colors hover:border-border-hover"
         aria-label="Filter pools"
         aria-expanded={isOpen}
       >
@@ -57,7 +57,7 @@ export const PoolsTableFilter = ({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full z-10 mt-1 min-w-[160px] rounded-none border border-border-primary bg-surface-secondary shadow-lg">
+        <div className="absolute right-0 top-full z-10 mt-1 min-w-40 rounded-xl border border-border-primary bg-surface-secondary shadow-lg">
           {POOL_FILTER_OPTIONS.filter((o) => o.value !== "custom").map(
             (option) => (
               <button

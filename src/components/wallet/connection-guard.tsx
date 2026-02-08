@@ -34,7 +34,7 @@ export const ConnectWalletPrompt = ({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-none border border-border-primary bg-surface-primary/50 py-16">
+    <div className="flex flex-col items-center justify-center rounded-xl border border-border-primary bg-surface-primary/50 py-16">
       <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface-secondary">
         {icon || <Wallet className="h-8 w-8 text-text-muted" />}
       </div>

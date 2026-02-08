@@ -31,9 +31,9 @@ export const HistoryContent = ({ userAddress }: HistoryContentProps) => {
     [historyData, search, filter],
   );
 
-  if (!userAddress || isLoading || isPending) {
+  if (isLoading || isPending) {
     return (
-      <div className="overflow-hidden rounded-none border border-border-primary bg-surface-primary/50">
+      <div className="overflow-hidden rounded-lg border border-border-primary bg-surface-primary/50">
         <HistoryTableSkeleton />
       </div>
     );
@@ -41,7 +41,7 @@ export const HistoryContent = ({ userAddress }: HistoryContentProps) => {
 
   if (isError) {
     return (
-      <div className="overflow-hidden rounded-none border border-border-primary bg-surface-primary/50">
+      <div className="overflow-hidden rounded-lg border border-border-primary bg-surface-primary/50">
         <HistoryTableError />
       </div>
     );
@@ -49,7 +49,7 @@ export const HistoryContent = ({ userAddress }: HistoryContentProps) => {
 
   if (!historyData?.length) {
     return (
-      <div className="overflow-hidden rounded-none border border-border-primary bg-surface-primary/50">
+      <div className="overflow-hidden rounded-lg border border-border-primary bg-surface-primary/50">
         <HistoryTableEmpty />
       </div>
     );
@@ -68,7 +68,7 @@ export const HistoryContent = ({ userAddress }: HistoryContentProps) => {
         filteredCount={filteredData.length}
       />
 
-      <div className="overflow-hidden rounded-none border border-border-primary bg-surface-primary/50">
+      <div className="overflow-hidden rounded-lg border border-border-primary bg-surface-primary/50">
         {showFilteredEmpty ? (
           <InlineState
             padding="none"

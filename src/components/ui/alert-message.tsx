@@ -26,9 +26,9 @@ const alertStyles: Record<
     IconComponent: AlertTriangle,
   },
   info: {
-    container: "border-blue-800/60 bg-blue-950/40",
-    icon: "text-blue-400",
-    text: "text-blue-200",
+    container: "border-white/[0.10] bg-white/[0.03]",
+    icon: "text-white/50",
+    text: "text-white/40",
     IconComponent: Info,
   },
 };
@@ -39,7 +39,7 @@ export const AlertMessage = ({ type = "error", message, className }: AlertMessag
   const { container, icon, text, IconComponent } = alertStyles[type];
 
   return (
-    <div className={cn("flex items-start gap-2 overflow-hidden rounded-none border p-3", container, className)}>
+    <div className={cn("flex items-start gap-2 overflow-hidden rounded-xl border p-3", container, className)}>
       <IconComponent className={cn("h-4 w-4 shrink-0 mt-0.5", icon)} />
       <p className={cn("min-w-0 flex-1 wrap-break-word text-sm", text)}>{message}</p>
     </div>

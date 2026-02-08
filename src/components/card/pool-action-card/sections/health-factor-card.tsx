@@ -30,7 +30,7 @@ const getStatusColor = (status: HealthStatus): string => {
     case "danger":
       return "text-red-400";
     default:
-      return "text-gray-400";
+      return "text-white/30";
   }
 };
 
@@ -43,7 +43,7 @@ const getStatusBg = (status: HealthStatus): string => {
     case "danger":
       return "bg-red-900/30 border-red-700/40";
     default:
-      return "bg-gray-900/30 border-gray-700/40";
+      return "bg-white/[0.03] border-white/[0.10]";
   }
 };
 
@@ -76,7 +76,7 @@ const HealthFactorValue = ({
 
   return (
     <div className="flex flex-col items-center gap-1">
-      <span className="text-xs text-gray-400">{label}</span>
+      <span className="text-xs text-white/30">{label}</span>
       <span className={`text-lg font-bold ${colorClass}`}>{formatted}</span>
       {showStatus && (
         <span className={`text-xs ${colorClass}`}>
@@ -134,7 +134,7 @@ export const HealthFactorCard = ({
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <svg
-            className="w-4 h-4 text-gray-400"
+            className="w-4 h-4 text-white/30"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -146,7 +146,7 @@ export const HealthFactorCard = ({
               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
             />
           </svg>
-          <span className="text-sm font-medium text-gray-300">
+          <span className="text-sm font-medium text-white/50">
             Health Factor
           </span>
         </div>

@@ -37,7 +37,7 @@ export const PoolsTableHeader = ({
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search by pair or address..."
-          className="h-9 w-full max-w-xs rounded-none border border-border-secondary bg-surface-primary px-3 text-xs text-text-primary outline-none placeholder:text-text-disabled transition-colors focus:border-border-hover"
+          className="h-9 w-full max-w-xs rounded-lg border border-border-secondary bg-surface-primary px-3 text-xs text-text-primary outline-none placeholder:text-text-disabled transition-colors focus:border-border-hover"
           aria-label="Search pools"
         />
         <PoolsTableFilter selected={filter} onFilterChange={onFilterChange} />

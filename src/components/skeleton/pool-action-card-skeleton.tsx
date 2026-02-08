@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export const PoolActionCardSkeleton = () => {
   return (
-    <Card className="flex h-full w-104 flex-col rounded-none border-border-primary bg-surface-primary gap-0 p-4">
+    <Card className="flex h-full w-104 flex-col rounded-2xl border-border-primary bg-surface-primary gap-0 p-4">
       {/* Tabs Skeleton */}
       <CardHeader className="mb-3 flex flex-row gap-0 p-0">
         <div className="flex w-full border border-border-primary bg-surface-secondary">

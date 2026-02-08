@@ -14,7 +14,7 @@ export const NoPositionMessage = ({
   className = "",
 }: NoPositionMessageProps) => (
   <div
-    className={`flex flex-col items-center justify-center gap-3 rounded-none border border-border-primary bg-surface-secondary p-6 text-center ${className}`}
+    className={`flex flex-col items-center justify-center gap-3 rounded-xl border border-border-primary bg-surface-secondary p-6 text-center ${className}`}
   >
     <div className="space-y-1">
       <h3 className="text-sm font-medium text-text-heading">

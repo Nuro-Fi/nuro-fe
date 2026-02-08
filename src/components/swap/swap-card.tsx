@@ -45,7 +45,7 @@ export const SwapCard = ({ className = "" }: SwapCardProps) => {
 
   return (
     <div
-      className={`rounded-none border border-border-primary bg-surface-primary p-5 ${className}`}
+      className={`rounded-2xl border border-border-primary bg-surface-primary p-5 ${className}`}
     >
       <SwapHeader />
 

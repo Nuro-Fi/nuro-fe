@@ -15,7 +15,8 @@ export type InvalidateType =
   | "repay"
   | "withdrawLiquidity"
   | "withdrawCollateral"
-  | "swap";
+  | "swap"
+  | "faucet";
 
 export interface ContractMutationOptions<TParams> {
   toast: MutationToastConfig;

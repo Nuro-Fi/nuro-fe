@@ -40,7 +40,7 @@ export const TokenSelect = ({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex h-16 w-full items-center justify-between rounded-none border border-border-primary bg-surface-secondary/50 px-4 text-sm text-text-primary transition-colors hover:border-border-secondary hover:bg-surface-secondary"
+        className="flex h-16 w-full items-center justify-between rounded-xl border border-border-primary bg-surface-secondary/50 px-4 text-sm text-text-primary transition-colors hover:border-border-secondary hover:bg-surface-secondary"
       >
         {selected ? (
           <div className="flex items-center gap-3">

@@ -48,7 +48,7 @@ export const PoolsTableTokenFilter = ({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-none border border-border-secondary bg-surface-primary px-3 py-2 text-xs font-medium text-text-primary transition-colors hover:border-border-hover"
+        className="flex items-center gap-2 rounded-lg border border-border-secondary bg-surface-primary px-3 py-2 text-xs font-medium text-text-primary transition-colors hover:border-border-hover"
         aria-label="Filter by token"
         aria-expanded={isOpen}
       >
@@ -59,7 +59,7 @@ export const PoolsTableTokenFilter = ({
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full z-10 mt-1 max-h-64 min-w-[160px] overflow-y-auto rounded-none border border-border-primary bg-surface-secondary shadow-lg">
+        <div className="absolute right-0 top-full z-10 mt-1 max-h-64 min-w-40 overflow-y-auto rounded-xl border border-border-primary bg-surface-secondary shadow-lg">
           {options.map((option) => (
             <button
               key={option.value}

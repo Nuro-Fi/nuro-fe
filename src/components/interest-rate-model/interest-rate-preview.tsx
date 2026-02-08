@@ -62,7 +62,7 @@ export const InterestRatePreview = ({
         <StatRow
           label="Optimal Utilization"
           value={`${stats.optimalUtilization}%`}
-          color="text-blue-400"
+          color="text-cyan-400"
         />
         <StatRow
           label="Rate at Optimal"

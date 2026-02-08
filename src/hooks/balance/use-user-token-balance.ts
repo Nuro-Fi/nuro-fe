@@ -35,7 +35,7 @@ export const useUserWalletBalance = (
     isLoading,
     error,
   } = useQuery({
-    queryKey: tokenBalanceKeys.token(tokenAddress, address),
+    queryKey: tokenBalanceKeys.token(tokenAddress, address as string | undefined),
     queryFn: async () => {
       if (!address || !tokenAddress) return BigInt(0);
       try {

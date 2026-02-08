@@ -45,7 +45,7 @@ export const CreatePoolButton = () => {
         <Button
           type="button"
           size="sm"
-          className="rounded-none border border-btn-create bg-btn-create px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white-custom transition-all hover:bg-btn-create-hover"
+          className="rounded-lg border border-btn-create bg-btn-create px-4 py-2 text-sm font-semibold uppercase tracking-wide text-white-custom transition-all hover:bg-btn-create-hover"
         >
           Create Pool
         </Button>

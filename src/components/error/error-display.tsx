@@ -28,8 +28,8 @@ export const ErrorDisplay = ({
         className,
       )}
     >
-      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10 dark:bg-red-500/20">
-        <Icon className="h-6 w-6 text-red-500" />
+      <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-red-500/10">
+        <Icon className="h-6 w-6 text-red-400" />
       </div>
       <h3 className="mb-2 text-lg font-medium text-text-primary">{title}</h3>
       <p className="max-w-md text-sm text-text-muted">

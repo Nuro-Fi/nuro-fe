@@ -19,7 +19,7 @@ export const ChainSelectButton = ({
       onClick={onClick}
       disabled={disabled}
       className={cn(
-        "flex h-16 w-full items-center justify-between rounded-none border px-4",
+        "flex h-16 w-full items-center justify-between rounded-lg border px-4",
         "bg-surface-secondary/50 hover:bg-surface-secondary transition-colors",
         "disabled:opacity-50 disabled:cursor-not-allowed",
         "border-border-primary hover:border-border-secondary"

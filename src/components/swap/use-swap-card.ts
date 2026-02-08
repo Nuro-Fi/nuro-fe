@@ -1,5 +1,5 @@
 import { zeroAddress } from "viem";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { usePools, type PoolWithTokens } from "@/hooks/graphql/use-pools";
 import useReadPosition from "@/hooks/address/use-read-position";
 import { useCollateralBalanceUser } from "@/hooks/balance/use-collateral-balance-user";
@@ -22,6 +22,19 @@ export const useSwapCard = () => {
 
   const { data: pools = [], isLoading: isLoadingPools } = usePools();
   const { status: swapStatus, mutation: swapMutation } = useSwapToken();
+
+  // Auto-select first pool when pools load
+  useEffect(() => {
+    if (pools.length > 0 && !selectedPool) {
+      const first = pools[0];
+      if (first) {
+        setSelectedPool(first);
+        setTokenIn(findTokenByAddress(AVAILABLE_TOKENS, first.collateralToken));
+        setTokenOut(findTokenByAddress(AVAILABLE_TOKENS, first.borrowToken));
+      }
+    }
+  }, [pools, selectedPool]);
+
   const poolAddress = selectedPool?.lendingPool as HexAddress | undefined;
   const routerAddress = selectedPool?.router;
 

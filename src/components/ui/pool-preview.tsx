@@ -13,7 +13,7 @@ export interface PoolPreviewProps {
 
 export const PoolPreview = ({ collateral, borrow, ltv, className }: PoolPreviewProps) => {
   return (
-    <div className={cn("rounded-none border border-border-primary bg-surface-secondary/30 p-4", className)}>
+    <div className={cn("rounded-lg border border-border-primary bg-surface-secondary/30 p-4", className)}>
       <p className="mb-3 text-xs font-medium uppercase tracking-wide text-text-secondary">
         Pool Preview
       </p>

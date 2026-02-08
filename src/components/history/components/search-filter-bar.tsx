@@ -28,7 +28,7 @@ export const SearchFilterBar = ({
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="Search by address or tx hash..."
-          className="h-9 w-full rounded-none border border-border-secondary bg-surface-primary pl-10 pr-3 text-xs text-text-primary outline-none placeholder:text-text-disabled transition-colors focus:border-border-hover"
+          className="h-9 w-full rounded-lg border border-border-secondary bg-surface-primary pl-10 pr-3 text-xs text-text-primary outline-none placeholder:text-text-disabled transition-colors focus:border-border-hover"
           aria-label="Search transactions"
         />
       </div>
@@ -40,7 +40,7 @@ export const SearchFilterBar = ({
           onChange={(e) =>
             onFilterChange(e.target.value as TransactionType | "all")
           }
-          className="h-9 appearance-none rounded-none border border-border-secondary bg-surface-primary pl-10 pr-8 text-xs text-text-primary outline-none transition-colors focus:border-border-hover"
+          className="h-9 appearance-none rounded-lg border border-border-secondary bg-surface-primary pl-10 pr-8 text-xs text-text-primary outline-none transition-colors focus:border-border-hover"
           aria-label="Filter by type"
         >
           {FILTER_OPTIONS.map((option) => (

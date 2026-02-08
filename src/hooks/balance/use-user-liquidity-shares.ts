@@ -43,7 +43,7 @@ export const useReadUserLiquidityBalance = (
     isLoading,
     error,
   } = useQuery({
-    queryKey: liquidityBalanceKeys.balance(lendingPoolAddress, sharesTokenAddress || undefined, address),
+    queryKey: liquidityBalanceKeys.balance(lendingPoolAddress, sharesTokenAddress ?? undefined, address ?? undefined),
     queryFn: async () => {
       if (!sharesTokenAddress || !address) return BigInt(0);
       try {

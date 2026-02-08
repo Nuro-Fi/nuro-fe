@@ -55,7 +55,7 @@ export const PoolsTableRow = ({ pool, rate, onClick }: PoolsTableRowProps) => {
       <td className="px-4 py-4">
         <div className="flex items-center gap-4">
           <div className="relative h-10 w-16">
-            <div className="token-icon-wrapper absolute left-0 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full border-2 border-[#3b82f6] bg-neutral-900-custom overflow-hidden">
+            <div className="token-icon-wrapper absolute left-0 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full border border-white/15 bg-[#0a0a0a] overflow-hidden">
               <Image
                 src={pool.collateral.logoUrl}
                 alt={pool.collateral.symbol}
@@ -64,7 +64,7 @@ export const PoolsTableRow = ({ pool, rate, onClick }: PoolsTableRowProps) => {
                 className="h-10 w-10 rounded-full"
               />
             </div>
-            <div className="token-icon-wrapper absolute right-0 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full border-2 border-[#3b82f6] bg-neutral-900-custom overflow-hidden">
+            <div className="token-icon-wrapper absolute right-0 top-1/2 h-10 w-10 -translate-y-1/2 rounded-full border border-white/15 bg-[#0a0a0a] overflow-hidden">
               <Image
                 src={pool.borrow.logoUrl}
                 alt={pool.borrow.symbol}
@@ -76,10 +76,10 @@ export const PoolsTableRow = ({ pool, rate, onClick }: PoolsTableRowProps) => {
           </div>
 
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-gray-900">
+            <span className="text-sm font-bold text-white">
               {pool.collateral.symbol} / {pool.borrow.symbol}
             </span>
-            <span className="text-[11px] text-gray-500 font-mono">
+            <span className="text-[11px] text-white/30 font-mono">
               {pool.lendingPool.slice(0, 6)}...{pool.lendingPool.slice(-4)}
             </span>
           </div>
@@ -90,7 +90,7 @@ export const PoolsTableRow = ({ pool, rate, onClick }: PoolsTableRowProps) => {
                 <button
                   type="button"
                   onClick={(e) => e.stopPropagation()}
-                  className="rounded p-1 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
+                  className="rounded p-1 text-white/30 transition-colors hover:bg-white/6 hover:text-white/60"
                 >
                   <Info className="h-4 w-4" />
                 </button>
@@ -114,25 +114,25 @@ export const PoolsTableRow = ({ pool, rate, onClick }: PoolsTableRowProps) => {
         </div>
       </td>
 
-      <td className="px-4 py-4 text-right text-gray-900 font-semibold">
+      <td className="px-4 py-4 text-right text-white font-semibold">
         ${formatCompactNumber(totalLiquidity)}
       </td>
 
       <td className="px-4 py-4 text-right">
-        <span className="text-gray-900 font-bold">{apy.toFixed(2)}%</span>
+        <span className="text-white font-bold">{apy.toFixed(2)}%</span>
       </td>
 
-      <td className="px-4 py-4 text-right text-gray-900 font-semibold">
+      <td className="px-4 py-4 text-right text-white font-semibold">
         ${formatCompactNumber(totalBorrow)}
       </td>
 
       <td className="px-4 py-4 text-right">
-        <span className="text-gray-900 font-bold">
+        <span className="text-white font-bold">
           {borrowApy.toFixed(2)}%
         </span>
       </td>
 
-      <td className="px-4 py-4 text-right text-gray-900 font-semibold">
+      <td className="px-4 py-4 text-right text-white font-semibold">
         {formatLtvFromRaw(pool.ltv)}
       </td>
     </tr>

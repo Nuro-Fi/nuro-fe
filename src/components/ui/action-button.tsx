@@ -78,7 +78,7 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
         ref={ref}
         disabled={disabled || isLoading || isSuccess}
         className={cn(
-          "inline-flex items-center justify-center rounded-none border px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white-custom transition-all",
+          "inline-flex items-center justify-center rounded-xl border px-6 py-2.5 text-sm font-semibold uppercase tracking-wide text-white transition-all",
           "disabled:cursor-not-allowed disabled:opacity-50",
           variantStyles[variant],
           fullWidth && "w-full",

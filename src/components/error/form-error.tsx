@@ -12,7 +12,7 @@ export const FormError = ({ message, className }: FormErrorProps) => {
   return (
     <div
       className={cn(
-        "flex items-center gap-2 rounded-md bg-red-500/10 p-3 text-sm text-red-500 dark:bg-red-900/20 dark:text-red-400",
+        "flex items-center gap-2 rounded-lg bg-red-500/10 p-3 text-sm text-red-400",
         className,
       )}
     >

@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUserAddressActions } from "@/hooks/use-user-address";
+import { useQueryClient } from "@tanstack/react-query";
 
 const appId = process.env.NEXT_PUBLIC_CIRCLE_APP_ID as string;
 const ACCOUNT_TYPE = "SCA";
@@ -49,7 +50,7 @@ const BLOCKCHAIN_INFO: Record<
   "ARC-TESTNET": {
     name: "ARC Testnet",
     icon: "/chain/arc.png",
-    color: "from-blue-600 to-blue-500",
+    color: "from-white/20 to-white/10",
   },
   "ETH-SEPOLIA": {
     name: "Ethereum Sepolia",
@@ -74,6 +75,7 @@ function formatBalance(balance: string | number, decimals = 2): string {
 
 export function CircleConnectButton() {
   const { invalidateUserAddress } = useUserAddressActions();
+  const queryClient = useQueryClient();
   const sdkRef = useRef<W3SSdk | null>(null);
 
   const [sdkReady, setSdkReady] = useState(false);
@@ -91,8 +93,36 @@ export function CircleConnectButton() {
   const [mode, setMode] = useState<"create" | "login">("create");
   const [showDropdown, setShowDropdown] = useState(false);
 
+  // Load USDC balance
+  const loadUsdcBalance = useCallback(async (userToken: string, walletId: string) => {
+    try {
+      const response = await fetch("/api/endpoints", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "getTokenBalance",
+          userToken,
+          walletId,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.tokenBalances) {
+        const usdc = data.tokenBalances.find(
+          (t: any) => t.token?.symbol === "USDC",
+        );
+        if (usdc) {
+          setUsdcBalance(usdc.amount || "0");
+        }
+      }
+    } catch (err) {
+      console.error("Error loading balance:", err);
+    }
+  }, []);
+
   // Load wallets helper
-  const loadWallets = async (
+  const loadWallets = useCallback(async (
     userToken: string,
     encryptionKey: string,
     currentUserId: string,
@@ -131,35 +161,12 @@ export function CircleConnectButton() {
       console.error("Error loading wallets:", err);
       return [];
     }
-  };
+  }, [loadUsdcBalance]);
 
-  // Load USDC balance
-  const loadUsdcBalance = async (userToken: string, walletId: string) => {
-    try {
-      const response = await fetch("/api/endpoints", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: "getTokenBalance",
-          userToken,
-          walletId,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.tokenBalances) {
-        const usdc = data.tokenBalances.find(
-          (t: any) => t.token?.symbol === "USDC",
-        );
-        if (usdc) {
-          setUsdcBalance(usdc.amount || "0");
-        }
-      }
-    } catch (err) {
-      console.error("Error loading balance:", err);
-    }
-  };
+  // Notify CircleWalletProvider context of wallet state changes
+  const notifyWalletChanged = useCallback(() => {
+    window.dispatchEvent(new Event("circle-wallet-changed"));
+  }, []);
 
   // Clear session
   const clearSession = () => {
@@ -176,37 +183,56 @@ export function CircleConnectButton() {
     const savedEncryptionKey = localStorage.getItem("circleEncryptionKey");
     const savedWallets = localStorage.getItem("circleWallets");
 
-    if (savedUserId) setUserId(savedUserId);
+    // Batch all state updates in a microtask to avoid cascading renders
+    queueMicrotask(() => {
+      if (savedUserId) setUserId(savedUserId);
 
-    if (savedUserToken && savedEncryptionKey) {
-      setLoginResult({
-        userToken: savedUserToken,
-        encryptionKey: savedEncryptionKey,
-      });
-    }
-
-    if (savedWallets) {
-      try {
-        const parsedWallets = JSON.parse(savedWallets) as WalletData[];
-        setWallets(parsedWallets);
-
-        if (
-          savedUserId &&
-          savedUserToken &&
-          savedEncryptionKey &&
-          parsedWallets.length > 0
-        ) {
-          setConnectionState("connected");
-          // Load balance on restore
-          void loadUsdcBalance(savedUserToken, parsedWallets[0].id);
-          // Invalidate user address cache
-          void invalidateUserAddress();
-        }
-      } catch {
-        // Invalid JSON, ignore
+      if (savedUserToken && savedEncryptionKey) {
+        setLoginResult({
+          userToken: savedUserToken,
+          encryptionKey: savedEncryptionKey,
+        });
       }
-    }
-  }, [invalidateUserAddress]);
+
+      if (savedWallets) {
+        try {
+          const parsedWallets = JSON.parse(savedWallets) as WalletData[];
+          setWallets(parsedWallets);
+
+          if (
+            savedUserId &&
+            savedUserToken &&
+            savedEncryptionKey &&
+            parsedWallets.length > 0
+          ) {
+            setConnectionState("connected");
+            // Load balance on restore
+            const firstWallet = parsedWallets[0];
+            if (firstWallet) {
+              void loadUsdcBalance(savedUserToken, firstWallet.id);
+            }
+            // Notify context and invalidate queries
+            notifyWalletChanged();
+            void invalidateUserAddress();
+          }
+        } catch {
+          // Invalid JSON, ignore
+        }
+      }
+    });
+  }, [invalidateUserAddress, notifyWalletChanged, loadUsdcBalance]);
+
+  // Auto-refetch USDC balance every 10 seconds when connected
+  useEffect(() => {
+    const wallet = wallets[0];
+    if (connectionState !== "connected" || !loginResult?.userToken || !wallet?.id) return;
+
+    const interval = setInterval(() => {
+      void loadUsdcBalance(loginResult.userToken, wallet.id);
+    }, 10_000);
+
+    return () => clearInterval(interval);
+  }, [connectionState, loginResult, wallets, loadUsdcBalance]);
 
   // Initialize SDK on mount
   useEffect(() => {
@@ -345,8 +371,10 @@ export function CircleConnectButton() {
           if (existingWallets.length > 0) {
             setConnectionState("connected");
             setIsDialogOpen(false);
-            // Invalidate user address cache setelah login
+            // Notify context and invalidate all queries after login
+            notifyWalletChanged();
             await invalidateUserAddress();
+            await queryClient.invalidateQueries();
             return;
           }
         }
@@ -397,8 +425,10 @@ export function CircleConnectButton() {
           );
           if (newWallets.length > 0) {
             setConnectionState("connected");
-            // Invalidate user address cache setelah register wallet
+            // Notify context and invalidate all queries after wallet creation
+            notifyWalletChanged();
             await invalidateUserAddress();
+            await queryClient.invalidateQueries();
           } else {
             setConnectionState("disconnected");
             setError("Wallet creation pending. Please try again.");
@@ -411,7 +441,7 @@ export function CircleConnectButton() {
       setError(err?.message || "Connection failed");
       setConnectionState("disconnected");
     }
-  }, [sdkReady, userId, mode, invalidateUserAddress]);
+  }, [sdkReady, userId, mode, invalidateUserAddress, queryClient, notifyWalletChanged, loadWallets]);
 
   const handleDisconnect = async () => {
     clearSession();
@@ -422,8 +452,11 @@ export function CircleConnectButton() {
     setConnectionState("disconnected");
     setError(null);
     setShowDropdown(false);
-    // Invalidate user address cache setelah disconnect
+    // Notify context and invalidate all queries after disconnect
+    notifyWalletChanged();
     await invalidateUserAddress();
+    queryClient.removeQueries();
+    await queryClient.invalidateQueries();
   };
 
   const handleRefresh = async () => {
@@ -477,7 +510,7 @@ export function CircleConnectButton() {
     return (
       <button
         disabled
-        className="relative inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs uppercase tracking-[0.14em] cursor-not-allowed bg-gray-100 border border-gray-300 text-gray-500"
+        className="relative inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs uppercase tracking-[0.14em] cursor-not-allowed rounded-full border border-white/15 bg-white/6 text-white/50"
       >
         <Loader2 className="w-4 h-4 animate-spin" />
         <span>{getConnectionStateText()}</span>
@@ -491,7 +524,7 @@ export function CircleConnectButton() {
       <div className="relative">
         <button
           onClick={() => setIsDialogOpen(true)}
-          className="relative inline-flex items-center justify-center gap-2 px-3.5 py-2 text-xs uppercase tracking-[0.14em] cursor-pointer bg-transparent border border-blue-600 text-blue-600 hover:bg-blue-50 hover:border-blue-700 hover:text-blue-800 transition-all duration-150"
+          className="relative inline-flex items-center justify-center gap-2 px-5 py-2 text-sm font-semibold cursor-pointer rounded-full bg-white text-black transition-all hover:bg-white/90 hover:shadow-lg hover:shadow-white/10"
         >
           <Wallet className="w-4 h-4" />
           <span>Connect Wallet</span>
@@ -499,17 +532,17 @@ export function CircleConnectButton() {
 
         {/* Modal Dialog */}
         {isDialogOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 min-h-screen">
-            <div className="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm min-h-screen">
+            <div className="bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-xl max-w-md w-full mx-4 p-6 max-h-[90vh] overflow-y-auto">
               {/* Header */}
               <div className="text-center mb-6">
-                <div className="h-16 w-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center shadow-lg shadow-blue-500/25">
+                <div className="h-16 w-16 mx-auto mb-4 rounded-full border border-white/15 bg-white/6 flex items-center justify-center">
                   <Wallet className="h-8 w-8 text-white" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900">
+                <h2 className="text-2xl font-bold text-white">
                   Circle Wallet
                 </h2>
-                <p className="text-gray-600 mt-1">
+                <p className="text-white/40 mt-1">
                   Create or connect your programmable wallet
                 </p>
               </div>
@@ -521,8 +554,8 @@ export function CircleConnectButton() {
                   className={cn(
                     "flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all",
                     mode === "create"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                    ? "bg-white text-black"
+                    : "bg-white/6 text-white/50 hover:bg-white/10",
                   )}
                 >
                   Create Wallet
@@ -532,8 +565,8 @@ export function CircleConnectButton() {
                   className={cn(
                     "flex-1 py-2 px-4 rounded-lg text-sm font-medium transition-all",
                     mode === "login"
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                    ? "bg-white text-black"
+                    : "bg-white/6 text-white/50 hover:bg-white/10",
                   )}
                 >
                   Login
@@ -542,7 +575,7 @@ export function CircleConnectButton() {
 
               {/* User ID Input */}
               <div className="space-y-2 mb-6">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-white/50">
                   <User className="w-4 h-4 inline mr-1" />
                   User ID
                 </label>
@@ -551,9 +584,9 @@ export function CircleConnectButton() {
                   placeholder="Enter your unique user ID"
                   value={userId}
                   onChange={(e) => setUserId(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-white/10 rounded-lg bg-white/3 text-white placeholder:text-white/20 focus:ring-2 focus:ring-white/20 focus:border-transparent"
                 />
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-white/30">
                   {mode === "create"
                     ? "Choose a unique ID. This will be your wallet identifier."
                     : "Enter your existing user ID to access your wallet."}
@@ -562,8 +595,8 @@ export function CircleConnectButton() {
 
               {/* Error */}
               {error && (
-                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                  <p className="text-sm text-red-700">{error}</p>
+                <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <p className="text-sm text-red-400">{error}</p>
                 </div>
               )}
 
@@ -574,14 +607,14 @@ export function CircleConnectButton() {
                     setIsDialogOpen(false);
                     setError(null);
                   }}
-                  className="flex-1 py-3 px-4 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+                  className="flex-1 py-3 px-4 bg-white/6 text-white/60 rounded-lg font-medium hover:bg-white/10 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleConnect}
                   disabled={!userId.trim()}
-                  className="flex-1 py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 py-3 px-4 bg-white text-black rounded-lg font-medium hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {mode === "create" ? "Create Wallet" : "Connect"}
                 </button>
@@ -599,20 +632,20 @@ export function CircleConnectButton() {
       <div className="relative">
         <button
           onClick={() => setShowDropdown(!showDropdown)}
-          className="inline-flex items-center gap-3 px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+          className="inline-flex items-center gap-3 px-8 py-2 border border-white/15 rounded-full hover:bg-white/6 transition-colors"
         >
           <div className="flex items-center gap-3">
             <div className="flex flex-col items-end">
-              <span className="text-sm font-semibold text-gray-900">
+              <span className="text-sm font-semibold text-white">
                 {formatBalance(usdcBalance || "0")} USDC
               </span>
               <div className="flex items-center gap-1">
-                <span className="text-xs text-gray-600">
+                <span className="text-xs text-white/40">
                   {shortenAddress(primaryWallet.address)}
                 </span>
               </div>
             </div>
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center text-white text-sm font-medium">
+            <div className="h-8 w-8 rounded-full border border-white/15 bg-white/6 flex items-center justify-center text-white text-sm font-medium">
               {userId.slice(0, 2).toUpperCase()}
             </div>
           </div>
@@ -625,18 +658,18 @@ export function CircleConnectButton() {
               className="fixed inset-0 z-40"
               onClick={() => setShowDropdown(false)}
             />
-            <div className="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-gray-200 z-50 overflow-hidden">
+            <div className="absolute right-0 mt-2 w-72 bg-[#0a0a0a] rounded-xl shadow-lg border border-white/10 z-50 overflow-hidden">
               {/* User Info */}
-              <div className="p-4 border-b border-gray-100">
+              <div className="p-4 border-b border-white/6">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-600 to-blue-500 flex items-center justify-center text-white font-medium">
+                  <div className="h-10 w-10 rounded-full border border-white/15 bg-white/6 flex items-center justify-center text-white font-medium">
                     {userId.slice(0, 2).toUpperCase()}
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-semibold text-gray-900">
+                    <span className="font-semibold text-white">
                       {userId}
                     </span>
-                    <span className="text-xs text-gray-600">
+                    <span className="text-xs text-white/40">
                       {shortenAddress(primaryWallet.address)}
                     </span>
                   </div>
@@ -644,25 +677,25 @@ export function CircleConnectButton() {
               </div>
 
               {/* Balance Section */}
-              <div className="px-4 py-3 border-b border-gray-100">
+              <div className="px-4 py-3 border-b border-white/6">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-gray-600 uppercase tracking-wider">
+                  <span className="text-xs text-white/40 uppercase tracking-wider">
                     Balance
                   </span>
                   <button
                     onClick={handleRefresh}
                     disabled={isRefreshing}
-                    className="p-1 hover:bg-gray-100 rounded transition-colors disabled:opacity-50"
+                    className="p-1 hover:bg-white/6 rounded transition-colors disabled:opacity-50"
                   >
                     <RefreshCw
                       className={cn(
-                        "w-3.5 h-3.5 text-gray-500",
+                        "w-3.5 h-3.5 text-white/40",
                         isRefreshing && "animate-spin",
                       )}
                     />
                   </button>
                 </div>
-                <div className="text-2xl font-bold text-gray-900">
+                <div className="text-2xl font-bold text-white">
                   {formatBalance(usdcBalance || "0")} USDC
                 </div>
                 {blockchainInfo && (
@@ -674,7 +707,7 @@ export function CircleConnectButton() {
                       height={14}
                       className="rounded-full"
                     />
-                    <span className="text-xs text-gray-600">
+                    <span className="text-xs text-white/40">
                       {blockchainInfo.name}
                     </span>
                   </div>
@@ -685,28 +718,28 @@ export function CircleConnectButton() {
               <div className="p-2">
                 <button
                   onClick={copyAddress}
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/6 transition-colors"
                 >
                   {copied ? (
-                    <Check className="w-4 h-4 text-green-600" />
+                    <Check className="w-4 h-4 text-emerald-400" />
                   ) : (
-                    <Copy className="w-4 h-4 text-gray-500" />
+                    <Copy className="w-4 h-4 text-white/40" />
                   )}
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-white/60">
                     {copied ? "Copied!" : "Copy Address"}
                   </span>
                 </button>
 
                 <button
                   onClick={copyUserIdToClipboard}
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/6 transition-colors"
                 >
                   {copiedUserId ? (
-                    <Check className="w-4 h-4 text-green-600" />
+                    <Check className="w-4 h-4 text-emerald-400" />
                   ) : (
-                    <User className="w-4 h-4 text-gray-500" />
+                    <User className="w-4 h-4 text-white/40" />
                   )}
-                  <span className="text-sm text-gray-700">
+                  <span className="text-sm text-white/60">
                     {copiedUserId ? "Copied!" : "Copy User ID"}
                   </span>
                 </button>
@@ -715,22 +748,22 @@ export function CircleConnectButton() {
                   href={`https://testnet.arcscan.app/address/${primaryWallet.address}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/6 transition-colors"
                 >
-                  <ExternalLink className="w-4 h-4 text-gray-500" />
-                  <span className="text-sm text-gray-700">
+                  <ExternalLink className="w-4 h-4 text-white/40" />
+                  <span className="text-sm text-white/60">
                     View on Explorer
                   </span>
                 </a>
 
-                <div className="my-2 border-t border-gray-100" />
+                <div className="my-2 border-t border-white/6" />
 
                 <button
                   onClick={handleDisconnect}
-                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-50 transition-colors"
+                  className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-500/10 transition-colors"
                 >
-                  <LogOut className="w-4 h-4 text-red-600" />
-                  <span className="text-sm text-red-600">Disconnect</span>
+                  <LogOut className="w-4 h-4 text-red-400" />
+                  <span className="text-sm text-red-400">Disconnect</span>
                 </button>
               </div>
             </div>

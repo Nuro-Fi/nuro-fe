@@ -63,7 +63,7 @@ export function circleConnector(options: CircleConnectorOptions) {
             primaryWallet.address as Address,
           ] as readonly Address[];
 
-          const chainId = parameters?.chainId || options.chains?.[0]?.id || 1946;
+          const chainId = parameters?.chainId || options.chains?.[0]?.id || 5042002;
 
           config.emitter.emit("connect", {
             accounts,
@@ -116,7 +116,7 @@ export function circleConnector(options: CircleConnectorOptions) {
     },
 
     async getChainId() {
-      return options.chains?.[0]?.id || 1946; // Default to ARC Testnet
+      return options.chains?.[0]?.id || 5042002; // Default to ARC Testnet
     },
 
     async getProvider() {

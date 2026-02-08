@@ -36,7 +36,8 @@ export const CreatePoolForm = ({
     formState: { errors, isValid },
     setValue,
   } = useForm({
-    resolver: zodResolver(createPoolSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(createPoolSchema as any),
     defaultValues: createPoolDefaultValues,
     mode: "onChange",
   });

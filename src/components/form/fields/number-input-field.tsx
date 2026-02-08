@@ -46,7 +46,7 @@ export const NumberInputField = <T extends FieldValues>({
                 field.onChange(value === "" ? 0 : parseFloat(value) || 0);
               }}
               placeholder={placeholder}
-              className="h-12 w-full rounded-none border border-border-primary bg-surface-secondary/50 px-4 pr-20 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-border-secondary focus:bg-surface-secondary"
+              className="h-12 w-full rounded-lg border border-border-primary bg-surface-secondary/50 px-4 pr-20 text-sm text-text-primary outline-none transition-colors placeholder:text-text-muted focus:border-border-secondary focus:bg-surface-secondary"
             />
             {suffix && (
               <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-text-secondary">

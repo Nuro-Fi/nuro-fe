@@ -62,7 +62,7 @@ export const PoolSelectDialog = ({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by token or address..."
-              className="h-10 w-full rounded-none border border-border-primary bg-surface-secondary pl-10 pr-3 text-sm text-text-primary outline-none placeholder:text-text-muted focus:border-border-secondary"
+              className="h-10 w-full rounded-lg border border-border-primary bg-surface-secondary pl-10 pr-3 text-sm text-text-primary outline-none placeholder:text-text-muted focus:border-border-secondary"
             />
           </div>
         </div>
@@ -83,7 +83,7 @@ export const PoolSelectDialog = ({
                     key={pool.lendingPool}
                     type="button"
                     onClick={() => handleSelect(pool)}
-                    className="flex w-full items-center gap-3 rounded-none px-3 py-3 text-left transition-colors hover:bg-surface-secondary/70"
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left transition-colors hover:bg-surface-secondary/70"
                   >
                     <div className="relative flex shrink-0">
                       <div className="h-8 w-8 overflow-hidden rounded-full border border-border-primary bg-surface-secondary">
@@ -116,7 +116,7 @@ export const PoolSelectDialog = ({
                     </div>
 
                     <div className="shrink-0">
-                      <span className="rounded-none border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-400">
+                      <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-400">
                         LTV {(Number(pool.ltv) / 1e16).toFixed(0)}%
                       </span>
                     </div>

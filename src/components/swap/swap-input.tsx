@@ -56,7 +56,7 @@ export const SwapInput = ({
   };
 
   return (
-    <div className="rounded-none border border-border-primary bg-surface-secondary/60 p-4 transition-all hover:border-border-secondary">
+    <div className="rounded-lg border border-border-primary bg-surface-secondary/60 p-4 transition-all hover:border-border-secondary">
       {/* Header Row */}
       <div className="mb-2 flex items-center justify-between">
         <span className="text-xs font-medium text-text-muted">{label}</span>
@@ -67,7 +67,7 @@ export const SwapInput = ({
               <button
                 type="button"
                 onClick={onMaxClick}
-                className="rounded-none bg-primary/20 px-1.5 py-0.5 text-xs font-medium text-primary transition-colors hover:bg-primary/30"
+                className="rounded-lg bg-primary/20 px-1.5 py-0.5 text-xs font-medium text-primary transition-colors hover:bg-primary/30"
               >
                 MAX
               </button>
@@ -103,7 +103,7 @@ export const SwapInput = ({
           type="button"
           onClick={() => setOpen(true)}
           disabled={disabled}
-          className="flex min-w-[120px] shrink-0 items-center justify-between gap-2 rounded-none border border-border-secondary bg-surface-tertiary py-2 pl-2 pr-3 transition-all hover:border-border-hover hover:bg-surface-active disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex min-w-[120px] shrink-0 items-center justify-between gap-2 rounded-lg border border-border-secondary bg-surface-tertiary py-2 pl-2 pr-3 transition-all hover:border-border-hover hover:bg-surface-active disabled:cursor-not-allowed disabled:opacity-50"
         >
           {token ? (
             <div className="flex items-center gap-2">

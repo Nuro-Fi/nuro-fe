@@ -82,7 +82,7 @@ export const TokenSelectDialog = ({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name or symbol..."
-              className="h-10 w-full rounded-none border border-border-primary bg-surface-secondary pl-10 pr-3 text-sm text-text-primary outline-none placeholder:text-text-muted focus:border-border-secondary"
+              className="h-10 w-full rounded-lg border border-border-primary bg-surface-secondary pl-10 pr-3 text-sm text-text-primary outline-none placeholder:text-text-muted focus:border-border-secondary"
             />
           </div>
         </section>

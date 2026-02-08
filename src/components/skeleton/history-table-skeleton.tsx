@@ -2,6 +2,7 @@
 
 export const HistoryTableSkeleton = () => {
   return (
+    <div className="overflow-hidden rounded-lg">
     <div className="overflow-x-auto">
       <table className="w-full border-collapse">
         <thead>
@@ -33,39 +34,40 @@ export const HistoryTableSkeleton = () => {
           {Array.from({ length: 5 }).map((_, i) => (
             <tr key={i} className="bg-surface-primary/40">
               <td className="px-4 py-4">
-                <div className="h-6 w-28 animate-pulse rounded-none bg-surface-tertiary" />
+                <div className="h-6 w-28 animate-pulse rounded-lg bg-surface-tertiary" />
               </td>
               <td className="px-4 py-4">
                 <div className="flex items-center gap-3">
                   <div className="h-8 w-12 animate-pulse rounded-full bg-surface-tertiary" />
                   <div className="space-y-1">
-                    <div className="h-4 w-24 animate-pulse rounded-none bg-surface-tertiary" />
-                    <div className="h-3 w-20 animate-pulse rounded-none bg-surface-tertiary" />
+                    <div className="h-4 w-24 animate-pulse rounded-lg bg-surface-tertiary" />
+                    <div className="h-3 w-20 animate-pulse rounded-lg bg-surface-tertiary" />
                   </div>
                 </div>
               </td>
               <td className="px-4 py-4">
                 <div className="space-y-1">
-                  <div className="h-4 w-20 animate-pulse rounded-none bg-surface-tertiary" />
-                  <div className="h-3 w-12 animate-pulse rounded-none bg-surface-tertiary" />
+                  <div className="h-4 w-20 animate-pulse rounded-lg bg-surface-tertiary" />
+                  <div className="h-3 w-12 animate-pulse rounded-lg bg-surface-tertiary" />
                 </div>
               </td>
               <td className="px-4 py-4">
-                <div className="h-4 w-24 animate-pulse rounded-none bg-surface-tertiary" />
+                <div className="h-4 w-24 animate-pulse rounded-lg bg-surface-tertiary" />
               </td>
               <td className="px-4 py-4">
-                <div className="h-4 w-24 animate-pulse rounded-none bg-surface-tertiary" />
+                <div className="h-4 w-24 animate-pulse rounded-lg bg-surface-tertiary" />
               </td>
               <td className="px-4 py-4">
-                <div className="h-4 w-32 animate-pulse rounded-none bg-surface-tertiary" />
+                <div className="h-4 w-32 animate-pulse rounded-lg bg-surface-tertiary" />
               </td>
               <td className="px-4 py-4">
-                <div className="h-4 w-28 animate-pulse rounded-none bg-surface-tertiary" />
+                <div className="h-4 w-28 animate-pulse rounded-lg bg-surface-tertiary" />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+    </div>
     </div>
   );
 };

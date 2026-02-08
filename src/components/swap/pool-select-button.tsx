@@ -24,7 +24,7 @@ export const PoolSelectButton = ({
         type="button"
         onClick={() => setOpen(true)}
         disabled={disabled || isLoading}
-        className="group flex w-full items-center justify-between rounded-none border border-border-primary bg-surface-secondary/50 px-4 py-3 text-sm transition-all hover:border-border-hover hover:bg-surface-tertiary/80 disabled:cursor-not-allowed disabled:opacity-50"
+        className="group flex w-full items-center justify-between rounded-xl border border-border-primary bg-surface-secondary/50 px-4 py-3 text-sm transition-all hover:border-border-hover hover:bg-surface-tertiary/80 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {isLoading ? (
           <LoadingState />
@@ -36,7 +36,7 @@ export const PoolSelectButton = ({
 
         <div className="flex items-center gap-2">
           {pool && (
-            <span className="rounded-none border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-400">
+            <span className="rounded-lg border border-emerald-500/30 bg-emerald-500/15 px-2.5 py-1 text-xs font-semibold text-emerald-400">
               LTV {(Number(pool.ltv) / 1e16).toFixed(0)}%
             </span>
           )}

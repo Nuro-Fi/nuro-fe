@@ -57,22 +57,22 @@ export const InterestRatePreview = ({
         <StatRow
           label="Base Rate"
           value={`${stats.baseRate}%`}
-          color="text-emerald-400"
+          color="text-white"
         />
         <StatRow
           label="Optimal Utilization"
           value={`${stats.optimalUtilization}%`}
-          color="text-cyan-400"
+          color="text-white"
         />
         <StatRow
           label="Rate at Optimal"
           value={`${stats.rateAtOptimal}%`}
-          color="text-amber-400"
+          color="text-white"
         />
         <StatRow
           label="Max Rate"
           value={`${stats.maxRate}%`}
-          color="text-pink-400"
+          color="text-white"
         />
       </div>
     </div>

@@ -67,7 +67,7 @@ export const Navbar = () => {
   }, [isConnected, chainId, currentChainConfig, chainParam, pathname, router]);
 
   return (
-    <header className="sticky top-0 z-50 flex justify-center px-6 pt-4 pb-2 pointer-events-none">
+    <header className="sticky top-0 z-50 flex justify-center px-2 pt-4 pb-2 pointer-events-none">
       <div className="pointer-events-auto flex w-full max-w-5xl items-center justify-between rounded-full border border-white/15 bg-white/6 px-6 py-2.5 backdrop-blur-2xl shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
         <div className="flex items-center gap-2.5">
           <Image
@@ -94,7 +94,7 @@ export const Navbar = () => {
               <Link
                 key={item.href}
                 href={href}
-                className={`text-xs font-medium uppercase tracking-wider transition-colors hover:text-white ${
+                className={`font-normal text-sm uppercase tracking-wider transition-colors hover:text-white ${
                   isActive ? "text-white" : "text-white/50"
                 }`}
               >

@@ -5,6 +5,7 @@ import "@/styles/liquid-toast.css";
 import { Providers } from "@/components/providers/providers";
 import { Navbar } from "@/components/navbar";
 import { ErrorBoundary } from "@/components/error-boundary";
+import { BackgroundVeil } from "@/components/background-veil";
 import { Toaster } from "sonner";
 
 const geistSans = Geist({
@@ -35,11 +36,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
-        <div>
+        <BackgroundVeil />
+        <div className="relative min-h-screen">
           <Providers>
             <Navbar />
             <ErrorBoundary>
-              <main>{children}</main>
+              <main className="relative z-10">{children}</main>
             </ErrorBoundary>
           </Providers>
           <Toaster position="bottom-right" richColors />

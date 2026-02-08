@@ -10,7 +10,7 @@ export const TOKENS: Record<Network, TokensConfig> = {
     },
     [TokenSymbol.mUSDT]: {
       name: "Mock USYC",
-      symbol: "USYC",
+      symbol: "mUSYC",
       logo: "/token/usyc.svg",
       decimals: 6,
       address: "0x04C37dc1b538E00b31e6bc883E16d97cD7937a10",

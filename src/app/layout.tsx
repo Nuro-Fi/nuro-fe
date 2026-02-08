@@ -19,8 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Nuro fi ",
-  description: "Nuro fi ",
+  title: "NuroFi ",
+  description: "NuroFi is a cross-chain lending protocol powered by LayerZero, Circle and Arc.",
   icons: {
     icon: "/nurologo-tg.png",
   },

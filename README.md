@@ -12,7 +12,6 @@ A decentralized lending and borrowing protocol frontend built with Next.js, enab
 
 ### 💱 Token Swap
 - **Cross-Pool Swaps** - Exchange tokens seamlessly across different lending pools
-- **Real-time Price Charts** - Token price visualization with historical data
 - **Pool Selection** - Choose from available liquidity pools for optimal rates
 
 ### 🔗 Multi-Chain Support

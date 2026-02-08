@@ -49,7 +49,6 @@ A decentralized lending and borrowing protocol frontend built with Next.js, enab
 ### Web3 & Blockchain
 - **[wagmi](https://wagmi.sh/)** - React hooks for Ethereum
 - **[viem](https://viem.sh/)** - TypeScript interface for Ethereum
-- **[RainbowKit](https://www.rainbowkit.com/)** - Wallet connection UI
 - **[Circle W3S SDK](https://developers.circle.com/w3s)** - Programmable wallet SDK
 
 ### Data Fetching & State
